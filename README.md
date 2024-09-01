@@ -20,12 +20,12 @@ Download boost [binaries](https://sourceforge.net/projects/boost/files/boost-bin
 ```shell script
 BOOST_INCLUDEDIR    C:\thirdparty\boost_1_58_0\include
 BOOST_LIBRARYDIR    C:\thirdparty\boost_1_58_0\libs
-BOOST_ROOT          C:\thirdparty\boost_1_58_0\
+BOOST_ROOT          C:\thirdparty\boost_1_58_0\boost
 ```
 
 ## Build 
 ```shell script
 $ mkdir build && cd build
 $ cmake .. -DPATCH_VERSION=1 -DWITH_BOOST_TEST=ON
-$ cmake --b
+$ cmake --build .
 ```

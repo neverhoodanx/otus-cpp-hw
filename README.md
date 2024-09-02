@@ -27,5 +27,5 @@ BOOST_ROOT          C:\thirdparty\boost_1_58_0\
 ```shell script
 $ mkdir build && cd build
 $ cmake .. -DPATCH_VERSION=1 -DWITH_BOOST_TEST=ON
-$ cmake --b
+$ cmake --build .
 ```

@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.12)
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
-project(ip_filter VERSION ${PROJECT_VESRION})
+project(hw_allocator VERSION ${PROJECT_VESRION})
 
 option(WITH_BOOST_TEST "Whether to build Boost test" ON)
 
@@ -11,7 +11,10 @@ configure_file(version.h.in version.h)
 
 set(${PROJECT_NAME}_SRC src/lib.cpp include/lib.hpp
                         src/ip_filter.cpp include/ip_filter.hpp
-                        src/split.hpp)
+                        include/custom_allocator.hpp
+                        include/custom_vector.hpp
+                        src/split.hpp
+                        src/number_sequence.hpp)
 
 add_executable(${PROJECT_NAME}_cli main.cpp)
 add_library(${PROJECT_NAME} ${${PROJECT_NAME}_SRC})
@@ -39,7 +42,10 @@ target_link_libraries(${PROJECT_NAME}_cli PRIVATE
 
 if(WITH_BOOST_TEST)
     find_package(Boost COMPONENTS unit_test_framework REQUIRED)
-    add_executable(test_version test_version.cpp)
+    add_executable(test_version tests/test_hw1_version.cpp 
+                                tests/test_hw2_ip_filter.cpp 
+                                tests/test_hw3_custom_vector.cpp
+                                tests/test_hw3_custom_allocator.cpp)
 
     set_target_properties(test_version PROPERTIES
         CXX_STANDARD 17

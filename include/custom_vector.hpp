@@ -13,28 +13,43 @@
 
 namespace otus_cpp {
 /**
- * Custom container aka vector
+ * @brief A custom container aka std::vector.
+ *
+ * This class implements a dynamic array that can grow and shrink in size,
+ * allowing for efficient storage and manipulation of elements.
+ *
+ * @tparam T The type of elements stored in the container.
+ * @tparam Alloc The allocator type used for memory management (default is
+ * std::allocator<T>).
  */
 template <typename T, typename Alloc = std::allocator<T>> class custom_vector {
   public:
-	using allocator_type = Alloc;
-	using value_type = T;
-	using pointer = typename std::allocator_traits<Alloc>::pointer;
-	using size_type = typename std::allocator_traits<Alloc>::size_type;
+	using allocator_type = Alloc; ///< The type of allocator used.
+	using value_type = T; ///< The type of elements stored in the container.
+	using pointer =
+	    typename std::allocator_traits<Alloc>::pointer; ///< Pointer type for
+	                                                    ///< elements.
+	using size_type =
+	    typename std::allocator_traits<Alloc>::size_type; ///< Type for size
+	                                                      ///< representation.
 
-	using iterator = T *;
-	using const_iterator = const T *;
+	using iterator = T *; ///< Iterator type for the container.
+	using const_iterator =
+	    const T *; ///< Constant iterator type for the container.
 
 	/**
-	 * Ctor
-	 * initial_capacity - initial size of the container
+	 * @brief Constructor to initialize the custom_vector with a specified
+	 * initial capacity.
+	 *
+	 * @param initial_capacity The initial size of the container (default is
+	 * 10).
 	 */
 	custom_vector(size_type initial_capacity = 10)
 	    : size_(0), capacity_(initial_capacity), allocator_(Alloc()) {
 		data_ = std::allocator_traits<Alloc>::allocate(allocator_, capacity_);
 	}
 	/**
-	 * Copy Ctor
+	 * @brief Copy Ctor
 	 */
 	custom_vector(const custom_vector &other)
 	    : size_(other.size_), capacity_(other.capacity_),
@@ -46,7 +61,7 @@ template <typename T, typename Alloc = std::allocator<T>> class custom_vector {
 		}
 	}
 	/**
-	 * Move Ctor
+	 * @brief  Move Ctor
 	 */
 	custom_vector(custom_vector &&other) noexcept
 	    : data_(other.data_), size_(other.size_), capacity_(other.capacity_),
@@ -56,7 +71,7 @@ template <typename T, typename Alloc = std::allocator<T>> class custom_vector {
 		other.capacity_ = 0;
 	}
 	/**
-	 * Copy assignment operator
+	 * @brief Copy assignment operator
 	 */
 	custom_vector &operator=(const custom_vector &other) {
 		if (this != &other) {
@@ -77,7 +92,7 @@ template <typename T, typename Alloc = std::allocator<T>> class custom_vector {
 		return *this;
 	}
 	/**
-	 * Move assignment operator
+	 * @brief Move assignment operator
 	 */
 	custom_vector &operator=(custom_vector &&other) noexcept {
 		if (this != &other) {
@@ -96,7 +111,7 @@ template <typename T, typename Alloc = std::allocator<T>> class custom_vector {
 		return *this;
 	}
 	/**
-	 * Dtor
+	 * @brief Dtor
 	 */
 	~custom_vector() {
 		clear();
@@ -152,17 +167,17 @@ template <typename T, typename Alloc = std::allocator<T>> class custom_vector {
 		size_ = 0;
 	}
 	/**
-	 * Current size
+	 * @brief Current size
 	 * @return size size_type
 	 */
 	size_type size() const { return size_; }
 	/**
-	 * Resered conatainer size
-	 * @return capacity size_type
+	 * @brief Gets the current capacity of the vector.
+	 * @return The total number of elements that can be stored without resizing.
 	 */
 	size_type capacity() const { return capacity_; }
 	/**
-	 * Resizes the container so that it contains capacity_ * 2 elements
+	 * @brief Resizes the container so that it contains capacity_ * 2 elements
 	 */
 	void resize() {
 		size_type new_capacity = capacity_ * 2;
@@ -180,19 +195,23 @@ template <typename T, typename Alloc = std::allocator<T>> class custom_vector {
 		capacity_ = new_capacity;
 	}
 	/**
-	 * Return iterator to beginning
+	 * @brief Returns an iterator to the beginning of the vector.
+	 * @return An iterator pointing to the first element.
 	 */
 	iterator begin() { return data_; }
 	/**
-	 * Return iterator to end
+	 * @brief Returns an iterator to the end of the vector.
+	 * @return An iterator pointing past the last element.
 	 */
 	iterator end() { return data_ + size_; }
 	/**
-	 * Return const_iterator to beginning
+	 * @brief Returns a const_iterator to the beginning of the vector.
+	 * @return A const_iterator pointing to the first element.
 	 */
 	const_iterator cbegin() const { return data_; }
 	/**
-	 * Return const_iterator to end
+	 * @brief Returns a const_iterator to the end of the vector.
+	 * @return A const_iterator pointing past the last element.
 	 */
 	const_iterator cend() const { return data_ + size_; }
 

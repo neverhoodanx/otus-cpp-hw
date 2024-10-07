@@ -52,6 +52,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./hw_allocator-0.3.${{ github.run_number }}-Linux.deb
-          asset_name: hw_allocator-0.3.${{ github.run_number }}-Linux.deb
+          asset_path: ./hw_sfinae-0.4.${{ github.run_number }}-Linux.deb
+          asset_name: hw_sfinae-0.4.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package

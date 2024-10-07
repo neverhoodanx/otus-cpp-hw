@@ -11,60 +11,61 @@
 
 namespace otus_cpp {
 /**
- * Custom Allocator
- * T - type
- * N - size_ of the preallocated memory
+ * @brief Custom Allocator
+ *
+ * This struct provides a custom memory allocator that preallocates a block
+ * of memory for objects of type T. It manages memory allocation and
+ * deallocation, allowing for efficient memory usage
+ *
+ * @tparam T Type of objects to allocate
+ * @tparam N Size of the preallocated memory block (default is 10)
  */
 template <class T, std::size_t N = 10> struct custom_allocator {
-	using value_type = T;
-	using size_type = size_t;
-
-	// using pointer = T *;
-	// using const_pointer = const T *;
-	// using reference = T &;
-	// using const_reference = const T &;
+	using value_type = T;     ///< Type of the allocated objects
+	using size_type = size_t; ///< Type for sizes of allocations
 
 /**
  * I don't know how to do it right, but stl containers allocates 'end' on the
  * heap if you run on Windows
  */
 #ifdef WIN32
-	static constexpr int size_ = sizeof(T) * (N + 1);
-	static constexpr int block_size_ = (N + 1);
+	static constexpr int size_ = sizeof(T) * (N + 1); ///< Memory reserved
+	static constexpr int block_size_ = (N + 1);       ///< Block size
 #else
-	static constexpr int size_ = sizeof(T) * N;
-	static constexpr int block_size_ = N;
+	static constexpr int size_ = sizeof(T) * N; ///< Memory reserved
+	static constexpr int block_size_ = N;       ///< Block size
 #endif
-	static int pos_;             // current pos_ in pre reserved memory
-	static uint8_t data_[size_]; // reserve and align
-	static T *ptr_;
+	static int pos_; ///< Current position in the pre-reserved memory
+	static uint8_t data_[size_]; ///< Reserved and aligned memory block
+	static T *ptr_;              ///< Pointer to the allocated memory
 
 	/**
-	 * Ctor
+	 * @brief Ctor
 	 */
 	custom_allocator() noexcept = default;
 	/**
-	 * Dtor
+	 * @brief Dtor
 	 */
 	~custom_allocator() = default;
 	/**
-	 * Copy ctor
+	 * @brief Copy ctor
 	 */
 	custom_allocator(const custom_allocator &) {}
 	/**
-	 * Copy conversion constructor
+	 * @brief Copy conversion constructor
 	 */
 	template <class U>
 	custom_allocator(const custom_allocator<U, N> &) noexcept {}
 
-	// custom_allocator(custom_allocator &&other) noexcept {}
-	// custom_allocator &operator=(const custom_allocator &other) {} // can be
-	// return *this custom_allocator &operator=(custom_allocator &&other)
-	// noexcept {} // propagation
-
 	/**
-	 * Allocate
-	 * @param n - number of objects
+	 * @brief Allocates memory for a number of objects
+	 *
+	 * If the requested allocation exceeds the preallocated block, it falls back
+	 * to standard allocation from the heap
+	 *
+	 * @param n Number of objects to allocate
+	 * @return Pointer to the allocated memory
+	 * @throws std::bad_alloc If the allocation fails
 	 */
 	T *allocate(std::size_t n) {
 		// std::cout << "allocate n:" << n << " pos_: " << pos_ << std::endl;
@@ -81,9 +82,13 @@ template <class T, std::size_t N = 10> struct custom_allocator {
 	}
 
 	/**
-	 * deallocate
-	 * @param p - poinert to memeory
-	 * @param n - number of objects
+	 * @brief Deallocates memory for a number of objects
+	 *
+	 * If the pointer belongs to the preallocated memory, it simply updates
+	 * the position. Otherwise, it calls the standard deallocation
+	 *
+	 * @param p Pointer to the memory to deallocate
+	 * @param n Number of objects to deallocate
 	 */
 	void deallocate(T *p, std::size_t n) {
 		// std::cout << "deallocate n:" << n << std::endl;
@@ -98,13 +103,21 @@ template <class T, std::size_t N = 10> struct custom_allocator {
 	}
 
 	/**
-	 * Rebined for compatibility with other type, like node in list
+	 * @brief Rebinds the allocator to another type
+	 *
+	 * Allows for compatibility with other types, such as nodes in a list
+	 *
+	 * @tparam U The new type to bind to
 	 */
 	template <class U> struct rebind {
-		typedef custom_allocator<U, N> other;
+		typedef custom_allocator<U, N> other; ///< The new allocator type
 	};
 	/**
-	 * check the pointer from our memory or from the heap
+	 * @brief Checks if a pointer belongs to the preallocated memory buffer
+	 *
+	 * @param p Pointer to check
+	 * @return True if the pointer is within the preallocated buffer, false
+	 * otherwise
 	 */
 	static bool in_buf_memory(T *p) {
 		return ((reinterpret_cast<T *>(data_) <= p) &&
@@ -112,6 +125,7 @@ template <class T, std::size_t N = 10> struct custom_allocator {
 	}
 };
 
+// Static member definitions
 template <typename T, std::size_t N>
 uint8_t custom_allocator<T, N>::data_[size_];
 
@@ -119,12 +133,30 @@ template <typename T, std::size_t N> int custom_allocator<T, N>::pos_ = 0;
 
 template <typename T, std::size_t N> T *custom_allocator<T, N>::ptr_ = nullptr;
 
+/**
+ * @brief Inequality operator for custom allocators
+ *
+ * @tparam T Type of objects allocated by the first allocator
+ * @tparam U Type of objects allocated by the second allocator
+ * @param a1 First custom allocator to compare
+ * @param a2 Second custom allocator to compare
+ * @return True if both allocators are considered different, false otherwise
+ */
 template <class T, class U, std::size_t N>
 constexpr bool operator==(const custom_allocator<T, N> &a1,
                           const custom_allocator<U, N> &a2) noexcept {
 	return true;
 }
 
+/**
+ * @brief Inequality operator for custom allocators
+ *
+ * @tparam T Type of objects allocated by the first allocator
+ * @tparam U Type of objects allocated by the second allocator
+ * @param a1 First custom allocator to compare
+ * @param a2 Second custom allocator to compare
+ * @return True if both allocators are considered different, false otherwise
+ */
 template <class T, class U, std::size_t N>
 constexpr bool operator!=(const custom_allocator<T, N> &a1,
                           const custom_allocator<U, N> &a2) noexcept {

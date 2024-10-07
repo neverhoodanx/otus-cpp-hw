@@ -9,11 +9,6 @@ on:
     pull_request:
       - main
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -66,6 +61,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    if: ${{ contains(github.ref, 'release') }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4

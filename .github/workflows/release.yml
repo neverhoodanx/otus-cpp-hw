@@ -8,7 +8,12 @@ on:
       - release/**
     pull_request:
       - main
-      
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -55,3 +60,34 @@ jobs:
           asset_path: ./hw_sfinae-0.4.${{ github.run_number }}-Linux.deb
           asset_name: hw_sfinae-0.4.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
+  docs:
+    needs: deploy
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      # Install Doxygen
+      - name: Install Doxygen
+        run: sudo apt install doxygen && doxygen --version
+
+      - name: Install Graphviz
+        run: sudo apt install graphviz
+        
+      # Create documentation   
+      - name: Create documentation     
+        run: doxygen ./Doxyfile
+        
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: './html/'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

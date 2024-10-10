@@ -9,13 +9,21 @@
 #include <iostream>
 
 int main(int, char **) {
-	// #3 HomeWork: Custom allocator
+	// #4 HomeWork: SFINAE + Doxygen
 	try {
-		otus_cpp::technical_task_allocators();
+		otus_cpp::technical_task_sfinae();
 	} catch (const std::exception &e) {
 		std::cerr << e.what() << std::endl;
 		return -1;
 	}
+
+	// #3 HomeWork: Custom allocator
+	// try {
+	// 	otus_cpp::technical_task_allocators();
+	// } catch (const std::exception &e) {
+	// 	std::cerr << e.what() << std::endl;
+	// 	return -1;
+	// }
 
 	// #2 HomeWork: ip filter
 	// try {

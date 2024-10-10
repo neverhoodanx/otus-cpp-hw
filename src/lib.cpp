@@ -13,6 +13,8 @@
 #include "custom_vector.hpp"
 #include "number_sequence.hpp"
 
+#include "ip_print.hpp"
+
 #include <algorithm>
 #include <array>
 #include <iostream>
@@ -21,9 +23,38 @@
 
 namespace otus_cpp {
 
+void technical_task_sfinae() {
+	// 255
+	otus_cpp::sfinae::print_ip(int8_t{-1});
+
+	// 0.0
+	otus_cpp::sfinae::print_ip(int16_t{0});
+
+	// 127.0.0.1
+	otus_cpp::sfinae::print_ip(int32_t{2130706433});
+
+	// 123.45.67.89.101.112.131.41
+	otus_cpp::sfinae::print_ip(int64_t{8875824491850138409});
+
+	// Hello, World!
+	otus_cpp::sfinae::print_ip(std::string{"Hello, World!"});
+
+	// 100.200.300.400
+	otus_cpp::sfinae::print_ip(std::vector<int>{100, 200, 300, 400});
+
+	// 400.300.200.100
+	otus_cpp::sfinae::print_ip(std::list<short>{400, 300, 200, 100});
+
+	// 123.456.789.0
+	otus_cpp::sfinae::print_ip(std::make_tuple(123, 456, 789, 0));
+
+	// Compilation error
+	// otus::sfinae::print_ip(std::make_tuple(123, 456, 'c', 0, 6));
+}
+
 void technical_task_allocators() {
 	static constexpr std::array numbers{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-	
+
 	// Creating an instance of std::map<int, int>
 	auto map_std_allocator = std::map<int, int>();
 	// Filling it with 10 elements, where the key is a number from 0 to 9, and

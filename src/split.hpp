@@ -10,7 +10,7 @@
 
 namespace otus_cpp {
 /**
- * Splitting a string by a delimiter
+ * \brief Splitting a string by a delimiter
  */
 template <typename InIt, typename OutIt, typename T, typename F>
 InIt split(InIt it, InIt end_it, OutIt out_it, T split_val, F bind_func) {

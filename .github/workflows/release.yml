@@ -21,7 +21,6 @@ jobs:
       - run: cmake --build .
       - run: cmake --build . --target test
       - run: cmake --build . --target package
-      - run: cat ip_filter.tsv | ./ip_filter_cli | md5sum
 
   deploy:
     needs: build
@@ -53,6 +52,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ip_filter-0.0.${{ github.run_number }}-Linux.deb
-          asset_name: ip_filter-0.0.${{ github.run_number }}-Linux.deb
+          asset_path: ./hw_allocator-0.3.${{ github.run_number }}-Linux.deb
+          asset_name: hw_allocator-0.3.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package

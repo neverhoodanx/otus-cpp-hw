@@ -7,7 +7,7 @@ OTUS homework repository
 - HW02 ip_filter: ![HW02 ip_filter](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/ip-filter)
 - HW03 allocator: ![HW03 allocator](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/allocator)
 - HW04 sfinae_doxygen: ![HW04 sfinae_doxygen](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/sfinae_doxygen)
-
+- HW05 graphic_editor: ![HW05 graphic_editor](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/graphic-editor)
 
 allocator
 ## Requirements

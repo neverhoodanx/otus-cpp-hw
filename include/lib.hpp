@@ -8,6 +8,12 @@
 #include <vector>
 
 namespace otus_cpp {
+
+/**
+ * @brief HW5 - graphic editor
+ */
+void example_use_editor();
+
 /**
  * @brief HW4 - SFINAE
  * following outputs are exepted:

@@ -22,17 +22,19 @@ void controller::create_circle(double r, int x, int y) {
 }
 
 void controller::delete_shape(size_t index) {
-	std::cout << "controller::delete_shape, index" << index << std::endl;
+	std::cout << "controller::delete_shape, index " << index << std::endl;
 	model->remove_shape(index);
 }
 
 void controller::save_document(const std::string &filename) {
-	std::cout << "controller::save_document, filename" << filename << std::endl;
+	std::cout << "controller::save_document, filename " << filename
+	          << std::endl;
 	model->save_to_file(filename);
 }
 
 void controller::load_document(const std::string &filename) {
-	std::cout << "controller::load_document, filename" << filename << std::endl;
+	std::cout << "controller::load_document, filename " << filename
+	          << std::endl;
 	model->load_from_file(filename);
 }
 

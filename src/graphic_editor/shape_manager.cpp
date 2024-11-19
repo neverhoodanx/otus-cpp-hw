@@ -30,12 +30,12 @@ void shape_manager::draw_shapes() const {
 }
 
 void shape_manager::load_from_file(const std::string &filename) {
-	std::cout << "shape_manager::load_from_file, filename" << filename
+	std::cout << "shape_manager::load_from_file, filename " << filename
 	          << std::endl;
 }
 
 void shape_manager::save_to_file(const std::string &filename) {
-	std::cout << "shape_manager::save_to_file, filename" << filename
+	std::cout << "shape_manager::save_to_file, filename " << filename
 	          << std::endl;
 }
 

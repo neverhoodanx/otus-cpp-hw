@@ -12,7 +12,7 @@ namespace otus_cpp {
 /**
  * @brief HW5 - graphic editor
  */
-void example_use_editor();
+void technical_task_graphic_editor();
 
 /**
  * @brief HW4 - SFINAE

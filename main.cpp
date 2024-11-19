@@ -11,7 +11,7 @@
 int main(int, char **) {
 	// #5 HomeWork: SFINAE + Doxygen
 	try {
-		otus_cpp::example_use_editor;
+		otus_cpp::technical_task_graphic_editor();
 	} catch (const std::exception &e) {
 		std::cerr << e.what() << std::endl;
 		return -1;

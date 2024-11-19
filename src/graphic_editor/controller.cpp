@@ -16,22 +16,23 @@ controller::controller(std::shared_ptr<shape_manager> m,
 }
 
 void controller::create_circle(double r, int x, int y) {
-	std::cout << "controller::create_circle" << std::endl;
+	std::cout << "controller::create_circle, r,x,y=" << r << "," << x << ","
+	          << y << std::endl;
 	model->add_shape(std::make_shared<circle>(r, x, y));
 }
 
 void controller::delete_shape(size_t index) {
-	std::cout << "controller::delete_shape" << std::endl;
+	std::cout << "controller::delete_shape, index" << index << std::endl;
 	model->remove_shape(index);
 }
 
 void controller::save_document(const std::string &filename) {
-	std::cout << "controller::save_document" << std::endl;
+	std::cout << "controller::save_document, filename" << filename << std::endl;
 	model->save_to_file(filename);
 }
 
 void controller::load_document(const std::string &filename) {
-	std::cout << "controller::load_document" << std::endl;
+	std::cout << "controller::load_document, filename" << filename << std::endl;
 	model->load_from_file(filename);
 }
 

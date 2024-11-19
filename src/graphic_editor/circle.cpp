@@ -18,11 +18,11 @@ void circle::draw() {
 };
 
 void circle::move(int x, int y) {
-	std::cout << "circle::move" << std::endl;
+	std::cout << "circle::move, x,y=" << x << "," << y << std::endl;
 };
 
 void circle::resize(double factor) {
-	std::cout << "circle::resize" << std::endl;
+	std::cout << "circle::resize, factor" << factor << std::endl;
 };
 
 } // namespace otus_cpp::editor

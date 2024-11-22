@@ -15,6 +15,11 @@
 
 #include "ip_print.hpp"
 
+#include "graphic_editor/canvas.hpp"
+#include "graphic_editor/circle.hpp"
+#include "graphic_editor/controller.hpp"
+#include "graphic_editor/shape_manager.hpp"
+
 #include <algorithm>
 #include <array>
 #include <iostream>
@@ -22,6 +27,17 @@
 #include <map>
 
 namespace otus_cpp {
+void technical_task_graphic_editor() {
+	editor::controller ctrl(std::make_shared<editor::shape_manager>(),
+	                        std::make_shared<editor::canvas>());
+
+	ctrl.create_circle(1, 1, 1);
+	ctrl.create_circle(2, 2, 2);
+	ctrl.update_view();
+	ctrl.save_document("untitled.svg");
+	ctrl.delete_shape(0);
+	ctrl.update_view();
+}
 
 void technical_task_sfinae() {
 	// 255

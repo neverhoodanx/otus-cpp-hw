@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.12)
 
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
-set(PROJECT_VESRION 0.4.${PATCH_VERSION})
+set(PROJECT_VESRION 0.5.${PATCH_VERSION})
 
-project(hw_sfinae VERSION ${PROJECT_VESRION})
+project(hw_graphic_editor VERSION ${PROJECT_VESRION})
 
 option(WITH_BOOST_TEST "Whether to build Boost test" ON)
 
@@ -14,7 +14,16 @@ set(${PROJECT_NAME}_SRC src/lib.cpp include/lib.hpp
                         include/custom_allocator.hpp
                         include/custom_vector.hpp
                         src/split.hpp
-                        src/number_sequence.hpp)
+                        src/number_sequence.hpp
+                        include/graphic_editor/canvas.hpp
+                        include/graphic_editor/circle.hpp
+                        include/graphic_editor/controller.hpp
+                        include/graphic_editor/shape_manager.hpp
+                        include/graphic_editor/iShape.hpp
+                        src/graphic_editor/canvas.cpp
+                        src/graphic_editor/circle.cpp
+                        src/graphic_editor/controller.cpp
+                        src/graphic_editor/shape_manager.cpp)
 
 add_executable(${PROJECT_NAME}_cli main.cpp)
 add_library(${PROJECT_NAME} ${${PROJECT_NAME}_SRC})
@@ -28,6 +37,7 @@ target_include_directories(${PROJECT_NAME}
     PRIVATE 
         ${CMAKE_BINARY_DIR}
         ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/include/graphic_editor
 )
 
 target_include_directories(${PROJECT_NAME}
@@ -45,7 +55,8 @@ if(WITH_BOOST_TEST)
     add_executable(test_version tests/test_hw1_version.cpp 
                                 tests/test_hw2_ip_filter.cpp 
                                 tests/test_hw3_custom_vector.cpp
-                                tests/test_hw3_custom_allocator.cpp)
+                                tests/test_hw3_custom_allocator.cpp
+                                tests/test_hw5_graphic_editor.cpp)
 
     set_target_properties(test_version PROPERTIES
         CXX_STANDARD 17

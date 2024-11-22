@@ -9,12 +9,12 @@
 
 namespace otus_cpp::editor {
 /**
- * The circle implementation is inherited from the shape interface
+ * @brief The circle implementation is inherited from the shape interface
  */
 class circle final : public iShape {
   public:
 	/**
-	 * Ctor
+	 * @brief Ctor
 	 * @param r - radius
 	 * @param x - coordinate horizontal X-axis
 	 * @param y - coordinate vertical Y-axis

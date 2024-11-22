@@ -20,13 +20,61 @@
 #include "graphic_editor/controller.hpp"
 #include "graphic_editor/shape_manager.hpp"
 
+#include "custom_matrix.hpp"
+
 #include <algorithm>
 #include <array>
+#include <cassert>
 #include <iostream>
 #include <iterator>
 #include <map>
 
 namespace otus_cpp {
+
+void technical_task_matrix() {
+	custom_matrix<int, 2> matrix(0);
+	const int size = 10;
+	for (int i = 0; i < size; ++i) {
+		matrix[i][i] = i;
+	}
+
+	for (int i = 0; i < size; ++i) {
+		matrix[i][size - 1 - i] = 9 - i;
+	}
+
+	for (int i = 1; i < 9; ++i) {
+		for (int j = 1; j < 9; ++j) {
+			std::cout << matrix[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}
+	std::cout << "Total size " << matrix.size() << std::endl;
+
+	for (auto [key_x, key_y, value] : matrix) {
+		std::cout << "key_x: " << key_x << ", key_y: " << key_y
+		          << ", value: " << value << std::endl;
+	}
+
+	((matrix[100][100] = 314) = 0) = 217;
+	std::cout << "((matrix[100][100] = 314) = 0) = 217; result: "
+	          << matrix[100][100] << std::endl;
+
+	custom_matrix<int, 3> matrixn(0);
+	matrixn[0][0][0] = 0;
+	matrixn[1][1][1] = 1;
+	matrixn[2][2][2] = 2;
+	std::cout << "n-matrix: matrixn[x][y][z]" << std::endl;
+	for (auto c : matrixn) {
+		int x;
+		int y;
+		int z;
+		int v;
+		std::tie(x, y, z, v) = c;
+		std::cout << "x: " << x << ", y: " << y << ", z: " << z << ", v: " << v
+		          << std::endl;
+	}
+}
+
 void technical_task_graphic_editor() {
 	editor::controller ctrl(std::make_shared<editor::shape_manager>(),
 	                        std::make_shared<editor::canvas>());
@@ -73,37 +121,38 @@ void technical_task_allocators() {
 
 	// Creating an instance of std::map<int, int>
 	auto map_std_allocator = std::map<int, int>();
-	// Filling it with 10 elements, where the key is a number from 0 to 9, and
-	// the value is the factorial of the key
+	// Filling it with 10 elements, where the key is a number from 0 to 9,
+	// and the value is the factorial of the key
 	for (const auto &x : numbers) {
 		map_std_allocator.emplace(x, factorial(x));
 	}
 
-	// Creating an instance of std::map<int, int> with a new allocator limited
-	// to 10 elements
+	// Creating an instance of std::map<int, int> with a new allocator
+	// limited to 10 elements
 	auto map_custom_allocator =
 	    std::map<int, int, std::less<>,
 	             custom_allocator<std::pair<const int, int>, 10>>{};
-	// Filling it with 10 elements, where the key is a number from 0 to 9, and
-	// the value is the factorial of the key
+	// Filling it with 10 elements, where the key is a number from 0 to 9,
+	// and the value is the factorial of the key
 	for (const auto &x : numbers) {
 		map_custom_allocator.emplace(x, factorial(x));
 	}
-	// Displaying all values (key and value separated by a space) stored in the
-	// container
+	// Displaying all values (key and value separated by a space) stored in
+	// the container
 	for (const auto &[key, val] : map_custom_allocator) {
 		std::cout << key << " " << val << std::endl;
 	}
 
-	// Creating an instance of a custom container for storing values of type int
+	// Creating an instance of a custom container for storing values of type
+	// int
 	auto vector_std_allocator = custom_vector<int>();
 	// Filling it with 10 elements from 0 to 9
 	for (const auto &x : numbers) {
 		vector_std_allocator.push_back(x);
 	}
 
-	// Creating an instance of a custom container for storing values of type int
-	// with a new allocator limited to 10 elements
+	// Creating an instance of a custom container for storing values of type
+	// int with a new allocator limited to 10 elements
 	auto vector_custom_allocator =
 	    custom_vector<int, custom_allocator<int, 10>>();
 	// Filling it with 10 elements from 0 to 9

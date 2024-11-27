@@ -52,8 +52,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./hw_graphic_editor-0.5.${{ github.run_number }}-Linux.deb
-          asset_name: hw_graphic_editor-0.5.${{ github.run_number }}-Linux.deb
+          asset_path: ./hw_n_matrix-0.6.${{ github.run_number }}-Linux.deb
+          asset_name: hw_n_matrix-0.6.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
   docs:
     needs: deploy

@@ -13,31 +13,31 @@
 
 namespace otus_cpp::editor {
 /**
- * Model, storing graphical primitives
+ * @brief Model, storing graphical primitives
  */
 class shape_manager {
   public:
 	/**
-	 * add some shape
+	 * @brief Add some shape
 	 * @param shape -
 	 */
 	virtual void add_shape(std::shared_ptr<iShape> shape);
 	/**
-	 * Remove shape by index
+	 * @brief Remove shape by index
 	 * @param index - index of the figure
 	 */
 	virtual void remove_shape(size_t index);
 	/**
-	 * Draw all shapes
+	 * @brief Draw all shapes
 	 */
 	virtual void draw_shapes() const;
 	/**
-	 * Save image file
+	 * @brief Save image file
 	 * @param filename - filename for save
 	 */
 	virtual void load_from_file(const std::string &filename);
 	/**
-	 * Load image file
+	 * @brief Load image file
 	 * @param filename - filename for load
 	 */
 	virtual void save_to_file(const std::string &filename);

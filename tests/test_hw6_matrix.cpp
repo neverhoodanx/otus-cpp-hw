@@ -32,6 +32,7 @@ BOOST_AUTO_TEST_CASE(test_iter_over_matrix) {
 
 	auto it = matrix.begin();
 	for (const auto &expected_value : expected) {
+		(void)expected_value;
 		BOOST_CHECK(it != matrix.end());
 		++it;
 	}

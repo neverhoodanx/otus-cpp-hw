@@ -128,7 +128,7 @@ template <typename T, std::size_t N> class custom_matrix {
 		 * accessing
 		 * @tparam U v - cumulative index
 		 */
-		custom_crutch(custom_matrix &m, U v) : matrix(m), val(v) {}
+		custom_crutch(custom_matrix &m, U v) : val(v), matrix(m) {}
 		/**
 		 * @brief Index access operator
 		 * @tparam uint32_t row - index

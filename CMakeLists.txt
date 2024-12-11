@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.12)
 
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
-set(PROJECT_VESRION 0.6.${PATCH_VERSION})
+set(PROJECT_VESRION 0.7.${PATCH_VERSION})
 
-project(hw_n_matrix VERSION ${PROJECT_VESRION})
+project(hw_terminal VERSION ${PROJECT_VESRION})
 
 option(WITH_BOOST_TEST "Whether to build Boost test" ON)
 
@@ -25,7 +25,13 @@ set(${PROJECT_NAME}_SRC src/lib.cpp include/lib.hpp
                         src/graphic_editor/controller.cpp
                         src/graphic_editor/shape_manager.cpp
                         include/custom_matrix.hpp
-                        include/print_tuple.hpp)
+                        include/print_tuple.hpp
+                        include/hw07_terminal/terminal.hpp
+                        src/hw07_terminal/terminal.cpp
+                        src/hw07_terminal/command_parser.cpp
+                        src/hw07_terminal/command_parser.hpp
+                        src/hw07_terminal/command_handler.cpp
+                        src/hw07_terminal/command_handler.hpp)
 
 add_executable(${PROJECT_NAME}_cli main.cpp)
 add_library(${PROJECT_NAME} ${${PROJECT_NAME}_SRC})
@@ -59,7 +65,8 @@ if(WITH_BOOST_TEST)
                                 tests/test_hw3_custom_vector.cpp
                                 tests/test_hw3_custom_allocator.cpp
                                 tests/test_hw5_graphic_editor.cpp
-                                tests/test_hw6_matrix.cpp)
+                                tests/test_hw6_matrix.cpp
+                                tests/test_hw7_terminal.cpp)
 
     set_target_properties(test_version PROPERTIES
         CXX_STANDARD 17

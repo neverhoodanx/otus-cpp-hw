@@ -52,8 +52,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./hw_n_matrix-0.6.${{ github.run_number }}-Linux.deb
-          asset_name: hw_n_matrix-0.6.${{ github.run_number }}-Linux.deb
+          asset_path: ./bulk-0.7.${{ github.run_number }}-Linux.deb
+          asset_name: bulk-0.7.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
   docs:
     needs: deploy

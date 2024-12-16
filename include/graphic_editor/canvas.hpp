@@ -18,6 +18,10 @@ class canvas {
 	 * @param shape_manager &shapes 
 	 */
 	virtual void render(const shape_manager &shapes);
+	/**
+	 * @brief Vritual Dtor
+	 */
+	virtual ~canvas() = default;
 };
 
 } // namespace otus_cpp::editor

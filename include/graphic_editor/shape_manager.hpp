@@ -41,6 +41,10 @@ class shape_manager {
 	 * @param filename - filename for load
 	 */
 	virtual void save_to_file(const std::string &filename);
+	/**
+	 * @brief Vritual Dtor
+	 */
+	virtual ~shape_manager() = default;
 
   private:
 	std::vector<std::shared_ptr<iShape>> shapes;

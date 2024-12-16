@@ -143,8 +143,8 @@ template <typename T, std::size_t N> T *custom_allocator<T, N>::ptr_ = nullptr;
  * @return True if both allocators are considered different, false otherwise
  */
 template <class T, class U, std::size_t N>
-constexpr bool operator==(const custom_allocator<T, N> &a1,
-                          const custom_allocator<U, N> &a2) noexcept {
+constexpr bool operator==([[maybe_unused]] const custom_allocator<T, N> &a1,
+                          [[maybe_unused]] const custom_allocator<U, N> &a2) noexcept {
 	return true;
 }
 
@@ -158,8 +158,8 @@ constexpr bool operator==(const custom_allocator<T, N> &a1,
  * @return True if both allocators are considered different, false otherwise
  */
 template <class T, class U, std::size_t N>
-constexpr bool operator!=(const custom_allocator<T, N> &a1,
-                          const custom_allocator<U, N> &a2) noexcept {
+constexpr bool operator!=([[maybe_unused]] const custom_allocator<T, N> &a1,
+                          [[maybe_unused]] const custom_allocator<U, N> &a2) noexcept {
 	return false;
 }
 } // namespace otus_cpp

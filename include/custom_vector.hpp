@@ -140,6 +140,7 @@ template <typename T, typename Alloc = std::allocator<T>> class custom_vector {
 	}
 	/**
 	 * Access element
+	 * @param size_type index - index of the element
 	 * @return reference to the element at position n in the vector container
 	 */
 	T &operator[](size_type index) {
@@ -149,6 +150,7 @@ template <typename T, typename Alloc = std::allocator<T>> class custom_vector {
 	}
 	/**
 	 * Access element
+	 * @param size_type index - index of the element
 	 * @return const reference to the element at position n in the vector
 	 * container
 	 */

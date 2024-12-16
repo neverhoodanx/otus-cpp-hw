@@ -4,18 +4,38 @@
  *  (c) 2024
  */
 
-#include "lib.hpp"
+#include "hw07_terminal/terminal.hpp"
+// #include "lib.hpp"
 
 #include <iostream>
 
-int main(int, char **) {
-	// #5 HomeWork: SFINAE + Doxygen
-	try {
-		otus_cpp::technical_task_graphic_editor();
-	} catch (const std::exception &e) {
-		std::cerr << e.what() << std::endl;
-		return -1;
+int main(int argc, char *argv[]) {
+	// #7 HomeWork: terminal
+	if (argc != 2) {
+		std::cerr << "Usage: " << argv[0] << " <block_size>" << std::endl;
+		return 1;
 	}
+
+	size_t block_size = std::stoi(argv[1]);
+	otus_cpp::terminal terminal_(block_size, std::cin, std::cout);
+	terminal_.run();
+	return 0;
+
+	// #6 HomeWork: N Matrix
+	// try {
+	// 	otus_cpp::technical_task_matrix();
+	// } catch (const std::exception &e) {
+	// 	std::cerr << e.what() << std::endl;
+	// 	return -1;
+	// }
+
+	// #5 HomeWork: Graphic Editor
+	// try {
+	// 	otus_cpp::technical_task_graphic_editor();
+	// } catch (const std::exception &e) {
+	// 	std::cerr << e.what() << std::endl;
+	// 	return -1;
+	// }
 
 	// #4 HomeWork: SFINAE + Doxygen
 	// try {

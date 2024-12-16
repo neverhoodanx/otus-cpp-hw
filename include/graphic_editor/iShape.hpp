@@ -7,26 +7,26 @@
 
 namespace otus_cpp::editor {
 /**
- * Interface for the shape class
+ * @brief Interface for the shape class
  */
 struct iShape {
 	/**
-	 * Draw shape
+	 * @brief Draw shape
 	 */
 	virtual void draw() = 0;
 	/**
-	 * Change posoztion on canvs
+	 * @brief Change posoztion on canvs
 	 * @param x - coordinate horizontal X-axis
 	 * @param y - coordinate vertical Y-axis
 	 */
 	virtual void move(int x, int y) = 0;
 	/**
-	 * Change size
+	 * @brief Change size
 	 * @param factor - scale factor
 	 */
 	virtual void resize(double factor) = 0;
 	/**
-	 * Vritual Dtor
+	 * @brief Vritual Dtor
 	 */
 	virtual ~iShape() = default;
 };

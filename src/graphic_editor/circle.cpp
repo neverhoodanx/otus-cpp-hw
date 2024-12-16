@@ -18,10 +18,13 @@ void circle::draw() {
 };
 
 void circle::move(int x, int y) {
+	centerX = x;
+	centerY = y;
 	std::cout << "circle::move, x,y=" << x << "," << y << std::endl;
 };
 
 void circle::resize(double factor) {
+	radius = radius*factor;
 	std::cout << "circle::resize, factor" << factor << std::endl;
 };
 

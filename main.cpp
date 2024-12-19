@@ -9,13 +9,22 @@
 #include <iostream>
 
 int main(int, char **) {
-	// #5 HomeWork: SFINAE + Doxygen
+
+	// #6 HomeWork: N Matrix
 	try {
-		otus_cpp::technical_task_graphic_editor();
+		otus_cpp::technical_task_matrix();
 	} catch (const std::exception &e) {
 		std::cerr << e.what() << std::endl;
 		return -1;
 	}
+
+	// #5 HomeWork: Graphic Editor
+	// try {
+	// 	otus_cpp::technical_task_graphic_editor();
+	// } catch (const std::exception &e) {
+	// 	std::cerr << e.what() << std::endl;
+	// 	return -1;
+	// }
 
 	// #4 HomeWork: SFINAE + Doxygen
 	// try {

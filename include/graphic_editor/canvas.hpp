@@ -9,12 +9,13 @@
 
 namespace otus_cpp::editor {
 /**
- * View for displaying data
+ * @brief View for displaying data
  */
 class canvas {
   public:
 	/**
-	 * Updates the rendering of all primitives on the canvas
+	 * @brief Updates the rendering of all primitives on the canvas
+	 * @param shape_manager &shapes 
 	 */
 	virtual void render(const shape_manager &shapes);
 };

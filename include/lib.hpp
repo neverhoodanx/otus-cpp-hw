@@ -15,6 +15,22 @@ namespace otus_cpp {
 void technical_task_graphic_editor();
 
 /**
+ * @brief HW6 - Matrix
+ * following outputs are exepted:
+ * - Create a matrix with an empty value of 0, fill the main diagonal of the
+ * matrix (from [0,0] to [9,9]) with values from 0 to 9.
+ * - Fill the secondary diagonal (from [0,9] to [9,0]) with values from 9 to 0.
+ * - Output a fragment of the matrix from [1,1] to [8,8]. Place a space between
+ * columns. Each row of the matrix should be on a new line in the console.
+ * - Output the number of occupied cells.
+ * - Output all occupied cells along with their positions.
+ * - Optionally, implement an N-dimensional matrix.
+ * - Optionally, implement the canonical form of the = operator, allowing
+ * expressions like
+ */
+void technical_task_matrix();
+
+/**
  * @brief HW4 - SFINAE
  * following outputs are exepted:
  * - print_ip( int8_t{-1} ); // 255

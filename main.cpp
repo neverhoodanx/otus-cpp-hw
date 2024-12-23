@@ -64,5 +64,5 @@ int main(int argc, char *argv[]) {
 	// std::cout << "Version: " << otus_cpp::version() << std::endl;
 	// std::cout << "Hello, world!" << std::endl;
 
-	return 0;
+	// return 0;
 }

@@ -9,6 +9,8 @@ OTUS homework repository
 - HW04 sfinae_doxygen: ![HW04 sfinae_doxygen](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/sfinae_doxygen)
 - HW05 graphic_editor: ![HW05 graphic_editor](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/graphic-editor)
 - HW06 n_matrix: ![HW06 n_matrix](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/matrix)
+- HW07 terminal: ![HW07 terminal](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/terminal)
+- HW08 boost: ![HW08 boost](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/boost)
 
 ## Requirements
  - cmake 3.12
@@ -35,6 +37,28 @@ $ cmake .. -DPATCH_VERSION=1 -DWITH_BOOST_TEST=ON
 $ cmake --build .
 ```
 
+## Manual test for HW08 boost - file parser
+Usage example:
+```shell script
+$ bayan -d "~\test" -b 64
+```
+Allowed options:
+```shell script
+	--help                          produce help message
+	-d [ --directories ] arg        directories to scan
+	-e [ --exclude ] arg            directories to exclude
+	-m [ --mask ] arg               file name masks
+	-s [ --min-size ] arg (=1)      minimum file size
+	-b [ --block-size ] arg (=4096) block size for reading
+	-l [ --level ] arg (=1)         scanning level
+```
+Example output :
+```
+hash: 09865ADB932231FB4019B4D048696B01, dublicates: 
+ - home/neverhooda/test/2.txt 
+ - home/neverhooda/test/test/4.bin 
+ - home/neverhooda/test/test/4.txt 
+```
 ## Manual test for HW02 ip_filter
 Control hash for test data **ip_filter.tsv** is:
 ```shell script

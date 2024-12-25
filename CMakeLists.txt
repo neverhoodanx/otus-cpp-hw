@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.12)
 
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 
-set(PROJECT_VESRION 0.7.${PATCH_VERSION})
+set(PROJECT_VESRION 0.8.${PATCH_VERSION})
 
-project(bulk VERSION ${PROJECT_VESRION})
+project(bayan VERSION ${PROJECT_VESRION})
 
 option(WITH_BOOST_TEST "Whether to build Boost test" ON)
 
@@ -32,7 +32,9 @@ set(${PROJECT_NAME}_SRC src/lib.cpp include/lib.hpp
                         src/hw07_terminal/command_parser.cpp
                         src/hw07_terminal/command_parser.hpp
                         src/hw07_terminal/command_handler.cpp
-                        src/hw07_terminal/command_handler.hpp)
+                        src/hw07_terminal/command_handler.hpp
+                        include/hw08_boost/file_parser.hpp
+                        src/hw08_boost/file_parser.cpp)
 
 add_executable(${PROJECT_NAME} main.cpp)
 add_library(${PROJECT_NAME}_lib ${${PROJECT_NAME}_SRC})
@@ -52,6 +54,7 @@ target_include_directories(${PROJECT_NAME}_lib
         ${CMAKE_SOURCE_DIR}/include/hw05_graphic_editor
         ${CMAKE_SOURCE_DIR}/include/hw06_matrix
         ${CMAKE_SOURCE_DIR}/include/hw07_terminal
+        ${CMAKE_SOURCE_DIR}/include/hw08_boost
 )
 
 target_include_directories(${PROJECT_NAME}_lib
@@ -65,13 +68,15 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 )
 
 if(WITH_BOOST_TEST)
+    find_package(Boost COMPONENTS unit_test_framework filesystem system program_options REQUIRED)
     add_executable(test_version tests/test_hw1_version.cpp 
                                 tests/test_hw2_ip_filter.cpp 
                                 tests/test_hw3_custom_vector.cpp
                                 tests/test_hw3_custom_allocator.cpp
                                 tests/test_hw5_graphic_editor.cpp
                                 tests/test_hw6_matrix.cpp
-                                tests/test_hw7_terminal.cpp)
+                                tests/test_hw7_terminal.cpp
+                                tests/test_hw8_boost.cpp)
 
     set_target_properties(test_version PROPERTIES
         CXX_STANDARD 17
@@ -87,6 +92,15 @@ if(WITH_BOOST_TEST)
         ${PROJECT_NAME}_lib
         ${Boost_LIBRARIES}
     )
+
+    set_target_properties(${PROJECT_NAME}_lib PROPERTIES
+    COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK)
+
+    target_include_directories(${PROJECT_NAME}_lib PUBLIC ${Boost_INCLUDE_DIR})
+    target_link_directories(${PROJECT_NAME}_lib PUBLIC ${Boost_LIBRARIES})
+    target_include_directories(${PROJECT_NAME} PUBLIC ${Boost_INCLUDE_DIR})
+    target_link_directories(${PROJECT_NAME} PUBLIC ${Boost_LIBRARIES})
+
 endif()
 
 if (MSVC)

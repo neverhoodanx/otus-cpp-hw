@@ -5,7 +5,6 @@
 
 #define BOOST_TEST_MODULE test_version
 
-#include "ip_filter.hpp"
 #include "lib.hpp"
 
 #include <boost/test/unit_test.hpp>

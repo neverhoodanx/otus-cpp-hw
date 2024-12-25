@@ -3,7 +3,7 @@
  *  (c) 2024
  */
 
-#include "custom_matrix.hpp"
+#include "hw06_matrix/custom_matrix.hpp"
 
 #include <boost/test/unit_test.hpp>
 

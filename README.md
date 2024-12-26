@@ -44,13 +44,15 @@ $ bayan -d "~\test" -b 64
 ```
 Allowed options:
 ```shell script
-	--help                          produce help message
-	-d [ --directories ] arg        directories to scan
-	-e [ --exclude ] arg            directories to exclude
-	-m [ --mask ] arg               file name masks
-	-s [ --min-size ] arg (=1)      minimum file size
-	-b [ --block-size ] arg (=4096) block size for reading
-	-l [ --level ] arg (=1)         scanning level
+Allowed options:
+  --help                          produce help message
+  -d [ --directories ] arg        directories to scan
+  -e [ --exclude ] arg            directories to exclude
+  -m [ --mask ] arg               file name masks
+  -s [ --min-size ] arg (=1)      minimum file size
+  -b [ --block-size ] arg (=4096) block size for reading
+  -l [ --level ] arg (=1)         scanning level (0 Current directory only or 1 Recursive scanning)
+  -H [ --hash ] arg (=md5)        hash type (md5 or crc32)
 ```
 Example output :
 ```

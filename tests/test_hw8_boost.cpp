@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE(find_duplicates_test) {
 	create_file_with_content(file4, "Hello, Test!\n");
 
 	otus_cpp::file_parser parser;
-	parser.scan_directories({temp_dir.string()}, {}, {"*.*"}, 2, 64, 1);
+	parser.scan_directories({temp_dir.string()}, {}, {"*.*"}, 2, 64, 1, "md5");
 	auto output = parser.get_dublicats();
 
 	BOOST_CHECK_EQUAL(output.size(), 1);

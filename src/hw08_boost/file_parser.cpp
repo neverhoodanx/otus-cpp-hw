@@ -5,40 +5,15 @@
  */
 
 #include "file_parser.hpp"
+#include "hash.hpp"
 
-#include <boost/algorithm/hex.hpp>
-#include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
-
-#include <boost/uuid/detail/md5.hpp>
 
 #include <fstream>
 #include <iostream>
 #include <regex>
 
 namespace {
-/**
- * @brief Converts an MD5 digest to a string representation.
- *
- * This function takes an MD5 digest, which is typically represented as an array
- * of integers, and converts it into a human-readable hexadecimal string. This
- * is useful for displaying the MD5 hash in a common format.
- *
- * @param digest The MD5 digest to convert. It's a fixed-size array of integers
- * as defined by Boost's MD5 implementation.
- * @return A string containing the hexadecimal representation of the MD5 digest.
- */
-std::string
-md5_digest_to_string(const boost::uuids::detail::md5::digest_type &digest) {
-	const auto intDigest = reinterpret_cast<const int *>(&digest);
-	std::string result;
-	boost::algorithm::hex(
-	    intDigest,
-	    intDigest +
-	        (sizeof(boost::uuids::detail::md5::digest_type) / sizeof(int)),
-	    std::back_inserter(result));
-	return result;
-}
 
 /**
  * @brief Concatenates all strings in a list into a single vector of characters.
@@ -70,16 +45,6 @@ namespace otus_cpp {
 
 namespace fs = boost::filesystem;
 
-std::string file_parser::compute_md5(const std::vector<char> &buffer) {
-
-	boost::uuids::detail::md5 hash;
-	boost::uuids::detail::md5::digest_type digest;
-	hash.process_bytes(buffer.data(), buffer.size());
-	hash.get_digest(digest);
-
-	return md5_digest_to_string(digest);
-}
-
 std::string file_parser::process_file(const std::string &path, size_t offset,
                                       size_t block_size) {
 	std::ifstream file(path, std::ios::binary);
@@ -101,7 +66,7 @@ std::string file_parser::process_file(const std::string &path, size_t offset,
 		std::fill(buffer.begin() + file.gcount(), buffer.end(), 0);
 	}
 
-	return compute_md5(buffer);
+	return hash_calc_(buffer);
 }
 
 bool file_parser::equal_hashs(const std::string &path_r,
@@ -109,52 +74,36 @@ bool file_parser::equal_hashs(const std::string &path_r,
                               const std::string &path_l,
                               std::list<std::string> &hash_l,
                               size_t block_size) {
-	if (hash_r.empty()) {
-		hash_r.push_back(process_file(path_r, hash_r.size(), block_size));
-	}
-	if (hash_l.empty()) {
-		hash_l.push_back(process_file(path_l, hash_l.size(), block_size));
-	}
-	if (hash_r.size() == hash_l.size() &&
-	    std::equal(hash_r.begin(), hash_r.end(), hash_l.begin()) &&
-	    hash_l.back().empty() && hash_r.back().empty()) {
-		return true;
-	}
-	auto r = hash_r.begin();
-	auto l = hash_l.begin();
-	while (r != hash_r.end() && l != hash_l.end()) {
-		if ((*r) == (*l)) {
-			r++;
-			l++;
-		} else {
-			return false;
-		}
-	}
-	while (r != hash_r.end()) {
-		hash_l.push_back(process_file(path_l, hash_l.size(), block_size));
-		if ((*r) != hash_l.back()) {
-			return false;
-		}
-		r++;
-	}
-	while (l != hash_l.end()) {
-		hash_r.push_back(process_file(path_r, hash_r.size(), block_size));
-		if ((*l) != hash_r.back()) {
-			return false;
-		}
-		l++;
-	}
+	auto process_next_block = [&](const std::string &path,
+	                              std::list<std::string> &hash_list) {
+		hash_list.push_back(process_file(path, hash_list.size(), block_size));
+	};
+
 	while (true) {
+		// Ensure both hash lists have at least one element
+		if (hash_r.size() <= hash_l.size() && hash_r.size() == hash_l.size()) {
+			process_next_block(path_r, hash_r);
+			process_next_block(path_l, hash_l);
+		} else if (hash_r.size() < hash_l.size()) {
+			process_next_block(path_r, hash_r);
+		} else {
+			process_next_block(path_l, hash_l);
+		}
+
+		// Compare the current block of hashes
+		auto it_r = hash_r.begin();
+		auto it_l = hash_l.begin();
+		for (; it_r != hash_r.end() && it_l != hash_l.end(); ++it_r, ++it_l) {
+			if (*it_r != *it_l) {
+				return false;
+			}
+		}
+
+		// Check if any hashes are empty, indicating end of file
 		if (hash_r.back().empty() && hash_l.back().empty()) {
 			return true;
 		}
-		if (hash_r.back() != hash_l.back()) {
-			return false;
-		}
-		hash_r.push_back(process_file(path_r, hash_r.size(), block_size));
-		hash_l.push_back(process_file(path_l, hash_l.size(), block_size));
 	}
-	return true;
 }
 
 bool file_parser::matches_mask(const std::string &filename,
@@ -173,13 +122,32 @@ bool file_parser::matches_mask(const std::string &filename,
 	return false;
 }
 
+void file_parser::setup_hash_foo(const std::string &hash_type) {
+	if (hash_type == "md5") {
+		hash_calc_ = [](const std::vector<char> &buffer) -> std::string {
+			return compute_md5(buffer);
+		};
+		return;
+	}
+	if (hash_type == "crc32") {
+		hash_calc_ = [](const std::vector<char> &buffer) -> std::string {
+			return compute_crc32(buffer);
+		};
+		return;
+	}
+	hash_calc_ =
+	    []([[maybe_unused]] const std::vector<char> &buffer) -> std::string {
+		return {};
+	};
+}
+
 void file_parser::scan_directories(const std::vector<std::string> &directories,
                                    const std::vector<std::string> &exclude_dirs,
                                    const std::vector<std::string> &masks,
                                    size_t min_size, size_t block_size,
-                                   int level) {
+                                   int level, const std::string &hash) {
+	setup_hash_foo(hash);
 	std::unordered_map<std::string, std::vector<fs::path>> file_signatures;
-
 	for (const auto &dir : directories) {
 		if (!fs::exists(dir) || !fs::is_directory(dir))
 			continue;
@@ -199,7 +167,7 @@ void file_parser::scan_directories(const std::vector<std::string> &directories,
 				continue;
 			}
 
-			if (itr.depth() > (level - 1)) {
+			if (level != 1 && itr.depth() > level) {
 				continue;
 			}
 
@@ -219,7 +187,7 @@ void file_parser::scan_directories(const std::vector<std::string> &directories,
 					if (equal_hashs(pair.first, pair.second, nf.first,
 					                nf.second, block_size)) {
 						auto buf_hash = concatenateStringsToVector(pair.second);
-						auto hash = compute_md5(buf_hash);
+						auto hash = hash_calc_(buf_hash);
 						dublicats_[hash].insert(pair.first);
 						dublicats_[hash].insert(nf.first);
 					}

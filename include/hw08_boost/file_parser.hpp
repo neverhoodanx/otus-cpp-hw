@@ -5,6 +5,7 @@
  */
 #pragma once
 
+#include <functional>
 #include <list>
 #include <string>
 #include <unordered_map>
@@ -43,7 +44,8 @@ class file_parser {
 	void scan_directories(const std::vector<std::string> &directories,
 	                      const std::vector<std::string> &exclude_dirs,
 	                      const std::vector<std::string> &masks,
-	                      size_t min_size, size_t block_size, int level);
+	                      size_t min_size, size_t block_size, int level,
+	                      const std::string &hash);
 
 	/**
 	 * @brief Retrieves the map of duplicate files.
@@ -55,14 +57,6 @@ class file_parser {
 	get_dublicats() const;
 
   private:
-	/**
-	 * @brief Computes MD5 hash for a given buffer.
-	 *
-	 * @param buffer The buffer to compute the MD5 hash for.
-	 * @return The computed MD5 hash as a string.
-	 */
-	std::string compute_md5(const std::vector<char> &buffer);
-
 	/**
 	 * @brief Processes a file to calculate hash for a given part of the file.
 	 *
@@ -97,11 +91,26 @@ class file_parser {
 	 */
 	bool matches_mask(const std::string &filename,
 	                  const std::vector<std::string> &masks);
+	/**
+	 * @brief Sets up the hash calculation function based on the specified hash
+	 * type.
+	 *
+	 * This function configures the `hash_calc_` lambda function to compute a
+	 * hash using either the MD5 or CRC32 algorithm, depending on the given
+	 * `hash_type`.
+	 *
+	 * @param hash_type A string indicating the desired hash algorithm. Valid
+	 * options are "md5" for MD5 hash and "crc32" for CRC32 hash. If an invalid
+	 * type is provided, the hash function will return an empty string.
+	 */
+	void setup_hash_foo(const std::string &hash_type);
 
 	// Members
 	std::unordered_map<std::string, std::list<std::string>>
 	    files_; ///< Map to store files and their associated hashes.
 	std::unordered_map<std::string, std::unordered_set<std::string>>
 	    dublicats_; ///< Map to store files that are duplicates.
+
+	std::function<std::string(const std::vector<char> &buffer)> hash_calc_;
 };
 } // namespace otus_cpp

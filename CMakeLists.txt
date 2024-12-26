@@ -36,7 +36,9 @@ set(${PROJECT_NAME}_SRC src/lib.cpp include/lib.hpp
                         src/hw07_terminal/command_handler.cpp
                         src/hw07_terminal/command_handler.hpp
                         include/hw08_boost/file_parser.hpp
-                        src/hw08_boost/file_parser.cpp)
+                        src/hw08_boost/file_parser.cpp
+                        src/hw08_boost/hash.cpp
+                        src/hw08_boost/hash.hpp)
 
 add_executable(${PROJECT_NAME} main.cpp)
 add_library(${PROJECT_NAME}_lib ${${PROJECT_NAME}_SRC})

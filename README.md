@@ -19,7 +19,7 @@ OTUS homework repository
 ## Prepare
 ### Linux
 ```shell script
-# apt-get update && sudo apt-get install libboost-test-dev -y
+# apt-get update && sudo apt-get install libboost-test-dev libboost-filesystem-dev libboost-program-options-dev -y
 ```
 
 ### Windows

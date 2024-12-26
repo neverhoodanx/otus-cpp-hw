@@ -10,6 +10,8 @@ option(WITH_BOOST_TEST "Whether to build Boost test" ON)
 
 configure_file(version.h.in version.h)
 
+find_package(Boost COMPONENTS unit_test_framework filesystem system program_options REQUIRED)
+
 set(${PROJECT_NAME}_SRC src/lib.cpp include/lib.hpp
                         src/hw02_filter/ip_filter.cpp include/hw02_filter/ip_filter.hpp
                         src/hw02_filter/split.hpp
@@ -67,8 +69,26 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 
 )
 
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
+)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    ${Boost_LIBRARIES}
+)
+
+set_target_properties(${PROJECT_NAME}_lib PROPERTIES
+    COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
+)
+
+target_link_libraries(${PROJECT_NAME}_lib PRIVATE
+    ${Boost_LIBRARIES}
+)
+
+target_include_directories(${PROJECT_NAME}_lib PRIVATE ${Boost_INCLUDE_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIR})
+
 if(WITH_BOOST_TEST)
-    find_package(Boost COMPONENTS unit_test_framework filesystem system program_options REQUIRED)
     add_executable(test_version tests/test_hw1_version.cpp 
                                 tests/test_hw2_ip_filter.cpp 
                                 tests/test_hw3_custom_vector.cpp
@@ -95,12 +115,6 @@ if(WITH_BOOST_TEST)
 
     set_target_properties(${PROJECT_NAME}_lib PROPERTIES
     COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK)
-
-    target_include_directories(${PROJECT_NAME}_lib PUBLIC ${Boost_INCLUDE_DIR})
-    target_link_directories(${PROJECT_NAME}_lib PUBLIC ${Boost_LIBRARIES})
-    target_include_directories(${PROJECT_NAME} PUBLIC ${Boost_INCLUDE_DIR})
-    target_link_directories(${PROJECT_NAME} PUBLIC ${Boost_LIBRARIES})
-
 endif()
 
 if (MSVC)

@@ -3,7 +3,7 @@
  *  (c) 2024
  */
 
-#include "custom_allocator.hpp"
+#include "hw03_alloc/custom_allocator.hpp"
 
 #include <boost/test/unit_test.hpp>
 

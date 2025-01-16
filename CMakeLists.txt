@@ -2,37 +2,43 @@ cmake_minimum_required(VERSION 3.12)
 
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 
-set(PROJECT_VESRION 0.7.${PATCH_VERSION})
+set(PROJECT_VESRION 0.8.${PATCH_VERSION})
 
-project(bulk VERSION ${PROJECT_VESRION})
+project(bayan VERSION ${PROJECT_VESRION})
 
 option(WITH_BOOST_TEST "Whether to build Boost test" ON)
 
 configure_file(version.h.in version.h)
 
+find_package(Boost COMPONENTS unit_test_framework filesystem system program_options REQUIRED)
+
 set(${PROJECT_NAME}_SRC src/lib.cpp include/lib.hpp
-                        src/ip_filter.cpp include/ip_filter.hpp
-                        include/custom_allocator.hpp
-                        include/custom_vector.hpp
-                        src/split.hpp
-                        src/number_sequence.hpp
-                        include/graphic_editor/canvas.hpp
-                        include/graphic_editor/circle.hpp
-                        include/graphic_editor/controller.hpp
-                        include/graphic_editor/shape_manager.hpp
-                        include/graphic_editor/iShape.hpp
-                        src/graphic_editor/canvas.cpp
-                        src/graphic_editor/circle.cpp
-                        src/graphic_editor/controller.cpp
-                        src/graphic_editor/shape_manager.cpp
-                        include/custom_matrix.hpp
-                        include/print_tuple.hpp
+                        src/hw02_filter/ip_filter.cpp include/hw02_filter/ip_filter.hpp
+                        src/hw02_filter/split.hpp
+                        include/hw03_alloc/custom_allocator.hpp
+                        include/hw03_alloc/custom_vector.hpp
+                        src/hw03_alloc/number_sequence.hpp
+                        include/hw05_graphic_editor/canvas.hpp
+                        include/hw05_graphic_editor/circle.hpp
+                        include/hw05_graphic_editor/controller.hpp
+                        include/hw05_graphic_editor/shape_manager.hpp
+                        include/hw05_graphic_editor/iShape.hpp
+                        src/hw05_graphic_editor/canvas.cpp
+                        src/hw05_graphic_editor/circle.cpp
+                        src/hw05_graphic_editor/controller.cpp
+                        src/hw05_graphic_editor/shape_manager.cpp
+                        include/hw06_matrix/custom_matrix.hpp
+                        include/hw06_matrix/print_tuple.hpp
                         include/hw07_terminal/terminal.hpp
                         src/hw07_terminal/terminal.cpp
                         src/hw07_terminal/command_parser.cpp
                         src/hw07_terminal/command_parser.hpp
                         src/hw07_terminal/command_handler.cpp
-                        src/hw07_terminal/command_handler.hpp)
+                        src/hw07_terminal/command_handler.hpp
+                        include/hw08_boost/file_parser.hpp
+                        src/hw08_boost/file_parser.cpp
+                        src/hw08_boost/hash.cpp
+                        src/hw08_boost/hash.hpp)
 
 add_executable(${PROJECT_NAME} main.cpp)
 add_library(${PROJECT_NAME}_lib ${${PROJECT_NAME}_SRC})
@@ -46,7 +52,13 @@ target_include_directories(${PROJECT_NAME}_lib
     PRIVATE 
         ${CMAKE_BINARY_DIR}
         ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/include/graphic_editor
+        ${CMAKE_SOURCE_DIR}/include/hw02_filter
+        ${CMAKE_SOURCE_DIR}/include/hw03_alloc
+        ${CMAKE_SOURCE_DIR}/include/hw04_sfinae
+        ${CMAKE_SOURCE_DIR}/include/hw05_graphic_editor
+        ${CMAKE_SOURCE_DIR}/include/hw06_matrix
+        ${CMAKE_SOURCE_DIR}/include/hw07_terminal
+        ${CMAKE_SOURCE_DIR}/include/hw08_boost
 )
 
 target_include_directories(${PROJECT_NAME}_lib
@@ -59,15 +71,34 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 
 )
 
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
+)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    ${Boost_LIBRARIES}
+)
+
+set_target_properties(${PROJECT_NAME}_lib PROPERTIES
+    COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
+)
+
+target_link_libraries(${PROJECT_NAME}_lib PRIVATE
+    ${Boost_LIBRARIES}
+)
+
+target_include_directories(${PROJECT_NAME}_lib PRIVATE ${Boost_INCLUDE_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIR})
+
 if(WITH_BOOST_TEST)
-    find_package(Boost COMPONENTS unit_test_framework REQUIRED)
     add_executable(test_version tests/test_hw1_version.cpp 
                                 tests/test_hw2_ip_filter.cpp 
                                 tests/test_hw3_custom_vector.cpp
                                 tests/test_hw3_custom_allocator.cpp
                                 tests/test_hw5_graphic_editor.cpp
                                 tests/test_hw6_matrix.cpp
-                                tests/test_hw7_terminal.cpp)
+                                tests/test_hw7_terminal.cpp
+                                tests/test_hw8_boost.cpp)
 
     set_target_properties(test_version PROPERTIES
         CXX_STANDARD 17
@@ -80,9 +111,12 @@ if(WITH_BOOST_TEST)
     )
 
     target_link_libraries(test_version
-        ${Boost_LIBRARIES}
         ${PROJECT_NAME}_lib
+        ${Boost_LIBRARIES}
     )
+
+    set_target_properties(${PROJECT_NAME}_lib PROPERTIES
+    COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK)
 endif()
 
 if (MSVC)

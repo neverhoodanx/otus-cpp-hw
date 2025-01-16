@@ -3,7 +3,7 @@
  *  (c) 2024
  */
 
-#include "graphic_editor/controller.hpp"
+#include "hw05_graphic_editor/controller.hpp"
 
 #include <boost/test/unit_test.hpp>
 

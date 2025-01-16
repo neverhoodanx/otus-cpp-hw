@@ -3,7 +3,7 @@
  *  (c) 2024
  */
 
-#include "custom_vector.hpp"
+#include "hw03_alloc/custom_vector.hpp"
 
 #include <boost/test/unit_test.hpp>
 

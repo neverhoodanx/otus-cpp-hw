@@ -3,7 +3,7 @@
  *  (c) 2024
  */
 
-#include "ip_filter.hpp"
+#include "hw02_filter/ip_filter.hpp"
 
 #include <boost/test/unit_test.hpp>
 

@@ -6,21 +6,22 @@
 #include "lib.hpp"
 #include "ip_filter.hpp"
 
-#include "split.hpp"
-#include "version.h"
+#include "hw02_filter/split.hpp"
 
 #include "custom_allocator.hpp"
 #include "custom_vector.hpp"
-#include "number_sequence.hpp"
+#include "hw03_alloc/number_sequence.hpp"
 
 #include "ip_print.hpp"
 
-#include "graphic_editor/canvas.hpp"
-#include "graphic_editor/circle.hpp"
-#include "graphic_editor/controller.hpp"
-#include "graphic_editor/shape_manager.hpp"
+#include "hw05_graphic_editor/canvas.hpp"
+#include "hw05_graphic_editor/circle.hpp"
+#include "hw05_graphic_editor/controller.hpp"
+#include "hw05_graphic_editor/shape_manager.hpp"
 
 #include "custom_matrix.hpp"
+
+#include "version.h"
 
 #include <algorithm>
 #include <array>

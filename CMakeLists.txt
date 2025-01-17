@@ -25,13 +25,12 @@ add_executable(${PROJECT_NAME} main.cpp)
 
 add_library(${PROJECT_NAME}_lib STATIC ${${PROJECT_NAME}_SRC})
 
-
-set_target_properties(${PROJECT_NAME} ${PROJECT_NAME}_lib PROPERTIES
+set_target_properties(${PROJECT_NAME} lib${PROJECT_NAME} PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
 )
 
-target_include_directories(${PROJECT_NAME}_lib
+target_include_directories(lib${PROJECT_NAME}
     PRIVATE 
         ${CMAKE_BINARY_DIR}
         ${CMAKE_SOURCE_DIR}/src
@@ -39,7 +38,7 @@ target_include_directories(${PROJECT_NAME}_lib
         ${CMAKE_SOURCE_DIR}/include/hw12_map_reduce
 )
 
-target_include_directories(${PROJECT_NAME}_lib
+target_include_directories(lib${PROJECT_NAME}
     PUBLIC 
         ${CMAKE_SOURCE_DIR}/include
         ${CMAKE_SOURCE_DIR}/src
@@ -57,15 +56,15 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     ${Boost_LIBRARIES}
 )
 
-set_target_properties(${PROJECT_NAME}_lib PROPERTIES
+set_target_properties(lib${PROJECT_NAME} PROPERTIES
     COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
 )
 
-target_link_libraries(${PROJECT_NAME}_lib PRIVATE
+target_link_libraries(lib${PROJECT_NAME} PRIVATE
     ${Boost_LIBRARIES}
 )
 
-target_include_directories(${PROJECT_NAME}_lib PRIVATE ${Boost_INCLUDE_DIR})
+target_include_directories(lib${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIR})
 target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIR})
 
 if(WITH_BOOST_TEST)
@@ -84,11 +83,11 @@ if(WITH_BOOST_TEST)
     )
 
     target_link_libraries(test_version
-        ${PROJECT_NAME}_lib
+        lib${PROJECT_NAME}
         ${Boost_LIBRARIES}
     )
 
-    set_target_properties(${PROJECT_NAME}_lib PROPERTIES
+    set_target_properties(lib${PROJECT_NAME} PROPERTIES
     COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK)
 endif()
 
@@ -96,7 +95,7 @@ if (MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE
         /W4
     )
-    target_compile_options(${PROJECT_NAME}_lib PRIVATE
+    target_compile_options(lib${PROJECT_NAME} PRIVATE
         /W4
     )
     if(WITH_BOOST_TEST)
@@ -108,7 +107,7 @@ else ()
     target_compile_options(${PROJECT_NAME} PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
-    target_compile_options(${PROJECT_NAME}_lib PRIVATE
+    target_compile_options(lib${PROJECT_NAME} PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
     if(WITH_BOOST_TEST)

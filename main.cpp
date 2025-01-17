@@ -24,5 +24,6 @@ int main(int argc, char *argv[]) {
 	otus_cpp::map_reduce::run(m_num, r_num, file_path);
 
 	std::cout << "MapReduce completed successfully" << std::endl;
+
 	return 0;
 }

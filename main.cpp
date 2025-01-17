@@ -5,11 +5,8 @@
  *  (c) 2025
  */
 
+
 #include "hw10_network_terminal/network_terminal.hpp"
-
-#include <iostream>
-
-using boost::asio::ip::tcp;
 
 int main(int argc, char *argv[]) {
 	if (argc != 3) {

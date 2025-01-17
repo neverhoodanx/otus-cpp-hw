@@ -48,7 +48,6 @@ target_include_directories(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}_cli PRIVATE
     ${PROJECT_NAME}
-
 )
 
 set_target_properties(${PROJECT_NAME}_cli PROPERTIES

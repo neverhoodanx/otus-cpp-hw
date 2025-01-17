@@ -24,5 +24,6 @@ int main(int argc, char *argv[]) {
 		otus_cpp::async::receive(h, input.data(), input.size());
 	}
 	otus_cpp::async::disconnect(h);
+
 	return 0;
 }

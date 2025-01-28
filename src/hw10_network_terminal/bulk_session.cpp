@@ -30,7 +30,8 @@ void bulk_session::read_line() {
 	auto self(shared_from_this());
 	boost::asio::async_read_until(
 	    socket_, buffer_, '\n',
-	    [this, self](boost::system::error_code ec, std::size_t length) {
+	    [this, self](boost::system::error_code ec,
+	                 [[maybe_unused]] std::size_t length) {
 		    if (!ec) {
 			    std::istream is(&buffer_);
 			    std::string line;

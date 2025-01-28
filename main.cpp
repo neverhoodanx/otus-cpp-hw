@@ -7,6 +7,7 @@
 
 
 #include "hw10_network_terminal/network_terminal.hpp"
+#include <iostream>
 
 int main(int argc, char *argv[]) {
 	if (argc != 3) {

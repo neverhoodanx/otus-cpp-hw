@@ -5,7 +5,7 @@
 
 #define BOOST_TEST_MODULE test_version
 
-#include "lib.hpp"
+#include "hw01_version/lib_version.hpp"
 
 #include <boost/test/unit_test.hpp>
 

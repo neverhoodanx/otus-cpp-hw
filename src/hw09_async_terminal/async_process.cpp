@@ -27,6 +27,8 @@ async_process::async_process(size_t threadCount) : done(false) {
 						return;
 				}
 				auto cmd = processFileQueue();
+				if (cmd.timestamp.empty())
+					continue;
 				// Create a file name
 				std::string fileName = cmd.timestamp + "_" + cmd.contextName +
 				                       std::to_string(count++) + ".txt";
@@ -82,13 +84,13 @@ void async_process::process_block(const std::queue<std::string> &commands,
 	{
 		std::lock_guard<std::mutex> lock(consoleMutex);
 		consoleQueue.push(cmd);
-		consoleCv.notify_one();
+		consoleCv.notify_all();
 	}
 
 	{
 		std::lock_guard<std::mutex> lock(fileMutex);
 		fileQueue.push(cmd);
-		fileCv.notify_one();
+		fileCv.notify_all();
 	}
 }
 

@@ -84,6 +84,7 @@ void disconnect(Context context) {
 	std::lock_guard<std::mutex> lock(contextsMutex);
 	auto it = contexts.find(context);
 	if (it != contexts.end()) {
+		it->second->parser_->handle_blocks();
 		contexts.erase(it);
 	} else {
 		std::cerr << "Invalid context" << std::endl;

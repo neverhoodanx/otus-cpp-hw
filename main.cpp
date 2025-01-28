@@ -5,19 +5,34 @@
  *  (c) 2025
  */
 
-#include "hw09_async_terminal/async.hpp"
+#include "hw10_network_terminal/network_terminal.hpp"
 
-int main() {
+#include <iostream>
 
-	std::size_t bulk = 5;
-	auto h = otus_cpp::async::connect(bulk);
-	auto h2 = otus_cpp::async::connect(bulk);
-	otus_cpp::async::receive(h, "1", 1);
-	otus_cpp::async::receive(h2, "1\n", 2);
-	otus_cpp::async::receive(h, "\n2\n3\n4\n5\n6\n{\na\n", 15);
-	otus_cpp::async::receive(h, "b\nc\nd\n}\n89\n", 11);
-	otus_cpp::async::disconnect(h);
-	otus_cpp::async::disconnect(h2);
+using boost::asio::ip::tcp;
+
+int main(int argc, char *argv[]) {
+	if (argc != 3) {
+		std::cerr << "Usage: bulk_server <port> <bulk_size>\n";
+		return 1;
+	}
+
+	try {
+		auto port = std::atoi(argv[1]);
+		size_t bulk_size = std::atoi(argv[2]);
+
+		boost::asio::io_context io_context;
+		otus_cpp::nw_async::server s(io_context, static_cast<short>(port),
+		                             bulk_size);
+		boost::asio::signal_set signals(io_context, SIGINT, SIGTERM);
+		signals.async_wait([&](auto, auto) {
+			s.stop();
+			io_context.stop();
+		});
+		io_context.run(); // Run the server in a single thread
+	} catch (std::exception &e) {
+		std::cerr << "Exception: " << e.what() << "\n";
+	}
 
 	return 0;
 }

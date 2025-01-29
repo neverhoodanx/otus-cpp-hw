@@ -5,7 +5,6 @@
  *  (c) 2025
  */
 
-
 #include "hw12_map_reduce/map_reduce.hpp"
 #include <cstdlib>
 #include <iostream>

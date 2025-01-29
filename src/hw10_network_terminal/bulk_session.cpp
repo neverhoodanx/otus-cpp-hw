@@ -1,5 +1,5 @@
 /**
- *  @file async_terminal.hpp
+ *  @file bulk_session.cpp
  *  OTUS homework module
  *  #10 bulk sesion
  *  (c) 2025

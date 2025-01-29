@@ -15,6 +15,7 @@ OTUS homework repository
 - HW10 network terminal: ![HW10 network terminal](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/network-terminal)
 - HW11 join server: ![HW11 join server](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/join_server)
 
+
 ## Requirements
  - cmake 3.12
  - boost 1.74

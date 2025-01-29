@@ -1,5 +1,5 @@
 /**
- *  @file async_terminal.hpp
+ *  @file decorator_async.cpp
  *  OTUS homework module
  *  #10 Decorator for async
  *  (c) 2025

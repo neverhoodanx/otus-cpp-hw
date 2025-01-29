@@ -1,5 +1,5 @@
 /**
- *  @file async_terminal.hpp
+ *  @file bulk_session.hpp
  *  OTUS homework module
  *  #10 bulk sesion
  *  (c) 2025
@@ -76,8 +76,8 @@ class bulk_session : public std::enable_shared_from_this<bulk_session> {
 	std::shared_ptr<decorator_async> async_;
 	/**
 	 * @brief Counter for the start of a block.
-	 * This member keeps track of the number of times a block has started, which 
-     * helps in managing multiple blocks.
+	 * This member keeps track of the number of times a block has started, which
+	 * helps in managing multiple blocks.
 	 */
 	uint32_t block_start_count_;
 	/**

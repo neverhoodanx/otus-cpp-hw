@@ -1,5 +1,5 @@
 /**
- *  @file async_terminal.hpp
+ *  @file network_terminal.hpp
  *  OTUS homework module
  *  #10 async tcp terminal
  *  (c) 2025

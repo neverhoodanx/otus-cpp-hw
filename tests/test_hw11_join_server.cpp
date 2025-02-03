@@ -1,6 +1,6 @@
 /**
  *  OTUS homework test module
- *  (c) 2024
+ *  (c) 2025
  */
 
 #include "hw11_join_server/table_keeper.hpp"

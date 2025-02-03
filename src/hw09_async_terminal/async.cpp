@@ -50,7 +50,9 @@ Context connect(std::size_t block_size) {
 	auto executor =
 	    std::make_unique<async_terminal>(block_size, uid++, handler_);
 	Context ctx = reinterpret_cast<Context>(executor.get());
-	{ contexts[ctx] = std::move(executor); }
+	{
+		contexts[ctx] = std::move(executor);
+	}
 
 	return ctx;
 }
@@ -84,6 +86,7 @@ void disconnect(Context context) {
 	std::lock_guard<std::mutex> lock(contextsMutex);
 	auto it = contexts.find(context);
 	if (it != contexts.end()) {
+		it->second->parser_->handle_blocks();
 		contexts.erase(it);
 	} else {
 		std::cerr << "Invalid context" << std::endl;

@@ -40,6 +40,12 @@ $ mkdir build && cd build
 $ cmake .. -DPATCH_VERSION=1 -DWITH_BOOST_TEST=ON
 $ cmake --build .
 ```
+
+## HW12 Usage mapreduce
+```shell script
+$ mapreduce <src> <mnum> <rnum>
+```
+
 ## HW11 Usage join_server
 ```shell script
 $ join_server <port>

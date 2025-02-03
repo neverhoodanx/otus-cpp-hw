@@ -6,6 +6,7 @@
  */
 
 #include "hw12_map_reduce/map_reduce.hpp"
+
 #include <cstdlib>
 #include <iostream>
 
@@ -24,5 +25,8 @@ int main(int argc, char *argv[]) {
 
 	std::cout << "MapReduce completed successfully" << std::endl;
 
+	otus_cpp::map_reduce::run(m_num, r_num, file_path);
+
+	std::cout << "MapReduce completed successfully" << std::endl;
 	return 0;
 }

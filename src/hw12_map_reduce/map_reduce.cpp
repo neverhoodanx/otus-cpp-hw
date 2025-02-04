@@ -4,7 +4,6 @@
  *  #12 map_reduce
  *  (c) 2025
  */
-#pragma once
 
 #include "map_reduce.hpp"
 #include "mp_map.hpp"
@@ -18,7 +17,7 @@ void run(size_t m_num, size_t r_num, const std::string &file_path) {
 	auto map_data = map_phase(m_num, file_path, chunks);
 	auto shuffle_data = shuffle_phase(r_num, map_data);
 	auto reduce_data = reduce_phase(r_num, shuffle_data);
-	for (int i = 0; i < r_num; ++i) {
+	for (size_t i = 0; i < r_num; ++i) {
 		std::string out_filename = "out_" + std::to_string(i) + ".txt";
 		std::ofstream out_file(out_filename);
 		for (const auto &line : reduce_data[i]) {

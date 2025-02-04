@@ -69,7 +69,8 @@ map_phase(size_t m_num, const std::string &file_path,
 			    std::ifstream file(filename, std::ios::binary);
 			    file.seekg(chunk.first);
 			    std::string line;
-			    while (file.tellg() < chunk.second && getline(file, line)) {
+			    while (static_cast<size_t>(file.tellg()) < chunk.second &&
+			           getline(file, line)) {
 				    auto mapped_lines = map_func(line);
 				    map_result.insert(map_result.end(), mapped_lines.begin(),
 				                      mapped_lines.end());

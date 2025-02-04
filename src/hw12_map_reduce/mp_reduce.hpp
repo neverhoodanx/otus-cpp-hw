@@ -66,7 +66,7 @@ reduce_phase(size_t r_num,
              const std::vector<std::vector<std::string>> &shuffle_results) {
 	std::vector<std::thread> reduce_threads;
 	std::vector<std::vector<std::string>> reduce_results(r_num);
-	for (int i = 0; i < r_num; ++i) {
+	for (size_t i = 0; i < r_num; ++i) {
 		reduce_threads.emplace_back(
 		    [](const std::vector<std::string> &shuffle_result,
 		       std::vector<std::string> &reduce_result,

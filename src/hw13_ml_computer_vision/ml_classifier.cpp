@@ -24,10 +24,10 @@ Eigen::VectorXf sigmoid(const Eigen::VectorXf &z) {
 Eigen::VectorXf softmax(const Eigen::VectorXf &z) {
 	Eigen::VectorXf exp_z{z.rows()};
 	float denominator = 0.0f;
-	for (size_t i = 0; i < z.rows(); ++i) {
+	for (Eigen::Index i = 0; i < z.rows(); ++i) {
 		denominator += std::exp(z(i));
 	}
-	for (size_t i = 0; i < z.rows(); ++i) {
+	for (Eigen::Index i = 0; i < z.rows(); ++i) {
 		exp_z(i) = std::exp(z(i)) / denominator;
 	}
 	return exp_z;
@@ -38,7 +38,7 @@ size_t ml_classifier::predict(const Eigen::VectorXf &data) {
 	auto o2 = softmax(w2_ * o1);
 
 	std::vector<float> res;
-	for (size_t i = 0; i < o2.rows(); ++i) {
+	for (Eigen::Index i = 0; i < o2.rows(); ++i) {
 		res.push_back(o2(i));
 	}
 	auto argmax = std::max_element(res.begin(), res.end());

@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 	int label_index = 0;
 	for (const auto &x : x_test) {
 		auto res = ml.predict(x);
-		if (res == y_test[label_index++]) {
+		if (res == static_cast<size_t>(y_test[label_index++])) {
 			correct_predictions++;
 		}
 	}

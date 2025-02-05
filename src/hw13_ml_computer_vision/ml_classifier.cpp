@@ -42,7 +42,7 @@ size_t ml_classifier::predict(const Eigen::VectorXf &data) {
 		res.push_back(o2(i));
 	}
 	auto argmax = std::max_element(res.begin(), res.end());
-	int predictedClass = std::distance(res.begin(), argmax);
+	auto predictedClass = std::distance(res.begin(), argmax);
 	return static_cast<size_t>(predictedClass);
 }
 } // namespace otus_cpp::ml

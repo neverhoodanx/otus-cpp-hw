@@ -4,7 +4,24 @@ set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 
 set(PROJECT_VESRION 1.2.${PATCH_VERSION})
 
-project(mapreduce VERSION ${PROJECT_VESRION})
+project(ml_computer_vision VERSION ${PROJECT_VESRION})
+
+# Включение FetchContent для загрузки внешних зависимостей
+include(FetchContent)
+
+# Загрузка Eigen из GitHub
+FetchContent_Declare(
+    eigen
+    GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
+    GIT_TAG 3.4.0  # Версия Eigen (можно использовать другую версию)
+)
+
+# FetchContent_MakeAvailable(eigen) # for compile test
+
+FetchContent_GetProperties(eigen)
+if(NOT eigen_POPULATED)
+    FetchContent_Populate(eigen)
+endif()
 
 option(WITH_BOOST_TEST "Whether to build Boost test" ON)
 
@@ -13,16 +30,14 @@ configure_file(version.h.in version.h)
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
 set(${PROJECT_NAME}_SRC src/hw01_version/lib_version.cpp include/hw01_version/lib_version.hpp
-                        include/hw12_map_reduce/map_reduce.hpp
-                        src/hw12_map_reduce/map_reduce.cpp
-                        src/hw12_map_reduce/utility.cpp
-                        src/hw12_map_reduce/utility.hpp
-                        src/hw12_map_reduce/mp_map.hpp
-                        src/hw12_map_reduce/mp_shuffle.hpp
-                        src/hw12_map_reduce/mp_reduce.hpp )
+                        include/hw13_ml_computer_vision/utility.hpp                        
+                        include/hw13_ml_computer_vision/ml_classifier.hpp
+                        src/hw13_ml_computer_vision/ml_classifier.cpp)
                         
 add_executable(${PROJECT_NAME} main.cpp)
 add_library(${PROJECT_NAME}_lib STATIC ${${PROJECT_NAME}_SRC})
+
+# target_include_directories(${PROJECT_NAME} PRIVATE ${eigen_SOURCE_DIR})
 
 set_target_properties(${PROJECT_NAME} ${PROJECT_NAME}_lib PROPERTIES
     CXX_STANDARD 17
@@ -34,13 +49,14 @@ target_include_directories(${PROJECT_NAME}_lib
         ${CMAKE_BINARY_DIR}
         ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_SOURCE_DIR}/include/hw01_version
-        ${CMAKE_SOURCE_DIR}/include/hw12_map_reduce
+        ${CMAKE_SOURCE_DIR}/include/hw13_ml_computer_vision
 )
 
 target_include_directories(${PROJECT_NAME}_lib
     PUBLIC 
         ${CMAKE_SOURCE_DIR}/include
         ${CMAKE_SOURCE_DIR}/src
+        ${eigen_SOURCE_DIR}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -70,7 +86,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIR})
 if(WITH_BOOST_TEST)
     add_executable(test_version 
                                 tests/test_hw1_version.cpp
-                                tests/test_hw12_map_reduce.cpp)
+                                tests/test_hw13_ml_computer_vision.cpp)
 
     set_target_properties(test_version PROPERTIES
         CXX_STANDARD 17
@@ -129,4 +145,5 @@ include(CPack)
 if(WITH_BOOST_TEST)
     enable_testing()
     add_test(test_version test_version)
+    file(COPY ${CMAKE_SOURCE_DIR}/ml/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endif()

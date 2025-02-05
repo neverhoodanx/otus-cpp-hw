@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 
-set(PROJECT_VESRION 1.2.${PATCH_VERSION})
+set(PROJECT_VESRION 1.3.${PATCH_VERSION})
 
 project(ml_computer_vision VERSION ${PROJECT_VESRION})
 

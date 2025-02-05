@@ -21,7 +21,7 @@
 
 #include "custom_matrix.hpp"
 
-#include "version.h"
+
 
 #include <algorithm>
 #include <array>
@@ -196,7 +196,4 @@ void technical_task_ip_filter() {
 	ip_filter::print(pool_filtred_by_any);
 }
 
-int version() {
-	return PROJECT_VERSION_PATCH;
-}
 } // namespace otus_cpp

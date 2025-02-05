@@ -2,46 +2,42 @@ cmake_minimum_required(VERSION 3.12)
 
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 
-set(PROJECT_VESRION 0.8.${PATCH_VERSION})
+set(PROJECT_VESRION 1.3.${PATCH_VERSION})
 
-project(bayan VERSION ${PROJECT_VESRION})
+project(ml_computer_vision VERSION ${PROJECT_VESRION})
+
+# Включение FetchContent для загрузки внешних зависимостей
+include(FetchContent)
+
+# Загрузка Eigen из GitHub
+FetchContent_Declare(
+    eigen
+    GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
+    GIT_TAG 3.4.0  # Версия Eigen (можно использовать другую версию)
+)
+
+# FetchContent_MakeAvailable(eigen) # for compile test
+
+FetchContent_GetProperties(eigen)
+if(NOT eigen_POPULATED)
+    FetchContent_Populate(eigen)
+endif()
 
 option(WITH_BOOST_TEST "Whether to build Boost test" ON)
 
 configure_file(version.h.in version.h)
 
-find_package(Boost COMPONENTS unit_test_framework filesystem system program_options REQUIRED)
+find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
-set(${PROJECT_NAME}_SRC src/lib.cpp include/lib.hpp
-                        src/hw02_filter/ip_filter.cpp include/hw02_filter/ip_filter.hpp
-                        src/hw02_filter/split.hpp
-                        include/hw03_alloc/custom_allocator.hpp
-                        include/hw03_alloc/custom_vector.hpp
-                        src/hw03_alloc/number_sequence.hpp
-                        include/hw05_graphic_editor/canvas.hpp
-                        include/hw05_graphic_editor/circle.hpp
-                        include/hw05_graphic_editor/controller.hpp
-                        include/hw05_graphic_editor/shape_manager.hpp
-                        include/hw05_graphic_editor/iShape.hpp
-                        src/hw05_graphic_editor/canvas.cpp
-                        src/hw05_graphic_editor/circle.cpp
-                        src/hw05_graphic_editor/controller.cpp
-                        src/hw05_graphic_editor/shape_manager.cpp
-                        include/hw06_matrix/custom_matrix.hpp
-                        include/hw06_matrix/print_tuple.hpp
-                        include/hw07_terminal/terminal.hpp
-                        src/hw07_terminal/terminal.cpp
-                        src/hw07_terminal/command_parser.cpp
-                        src/hw07_terminal/command_parser.hpp
-                        src/hw07_terminal/command_handler.cpp
-                        src/hw07_terminal/command_handler.hpp
-                        include/hw08_boost/file_parser.hpp
-                        src/hw08_boost/file_parser.cpp
-                        src/hw08_boost/hash.cpp
-                        src/hw08_boost/hash.hpp)
-
+set(${PROJECT_NAME}_SRC src/hw01_version/lib_version.cpp include/hw01_version/lib_version.hpp
+                        include/hw13_ml_computer_vision/utility.hpp                        
+                        include/hw13_ml_computer_vision/ml_classifier.hpp
+                        src/hw13_ml_computer_vision/ml_classifier.cpp)
+                        
 add_executable(${PROJECT_NAME} main.cpp)
-add_library(${PROJECT_NAME}_lib ${${PROJECT_NAME}_SRC})
+add_library(${PROJECT_NAME}_lib STATIC ${${PROJECT_NAME}_SRC})
+
+# target_include_directories(${PROJECT_NAME} PRIVATE ${eigen_SOURCE_DIR})
 
 set_target_properties(${PROJECT_NAME} ${PROJECT_NAME}_lib PROPERTIES
     CXX_STANDARD 17
@@ -52,18 +48,15 @@ target_include_directories(${PROJECT_NAME}_lib
     PRIVATE 
         ${CMAKE_BINARY_DIR}
         ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/include/hw02_filter
-        ${CMAKE_SOURCE_DIR}/include/hw03_alloc
-        ${CMAKE_SOURCE_DIR}/include/hw04_sfinae
-        ${CMAKE_SOURCE_DIR}/include/hw05_graphic_editor
-        ${CMAKE_SOURCE_DIR}/include/hw06_matrix
-        ${CMAKE_SOURCE_DIR}/include/hw07_terminal
-        ${CMAKE_SOURCE_DIR}/include/hw08_boost
+        ${CMAKE_SOURCE_DIR}/include/hw01_version
+        ${CMAKE_SOURCE_DIR}/include/hw13_ml_computer_vision
 )
 
 target_include_directories(${PROJECT_NAME}_lib
     PUBLIC 
         ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${eigen_SOURCE_DIR}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -91,14 +84,9 @@ target_include_directories(${PROJECT_NAME}_lib PRIVATE ${Boost_INCLUDE_DIR})
 target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIR})
 
 if(WITH_BOOST_TEST)
-    add_executable(test_version tests/test_hw1_version.cpp 
-                                tests/test_hw2_ip_filter.cpp 
-                                tests/test_hw3_custom_vector.cpp
-                                tests/test_hw3_custom_allocator.cpp
-                                tests/test_hw5_graphic_editor.cpp
-                                tests/test_hw6_matrix.cpp
-                                tests/test_hw7_terminal.cpp
-                                tests/test_hw8_boost.cpp)
+    add_executable(test_version 
+                                tests/test_hw1_version.cpp
+                                tests/test_hw13_ml_computer_vision.cpp)
 
     set_target_properties(test_version PROPERTIES
         CXX_STANDARD 17
@@ -157,4 +145,5 @@ include(CPack)
 if(WITH_BOOST_TEST)
     enable_testing()
     add_test(test_version test_version)
+    file(COPY ${CMAKE_SOURCE_DIR}/ml/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endif()

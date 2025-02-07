@@ -30,13 +30,13 @@ async_process::async_process(size_t threadCount) : done(false) {
 				if (cmd.timestamp.empty())
 					continue;
 				// Create a file name
-				std::string fileName = cmd.timestamp + "_" + cmd.contextName +
+				std::string fileName = "bulk" + cmd.timestamp + "_" +
+				                       cmd.contextName +
 				                       std::to_string(count++) + ".txt";
 
 				// Write command to file
 				std::ofstream outputFile(fileName, std::ios::app);
 				std::queue<std::string> temp = cmd.commandText;
-				outputFile << "[" << cmd.contextName << "]: ";
 				while (!temp.empty()) {
 					auto comm = temp.front();
 					temp.pop();
@@ -110,7 +110,6 @@ void async_process::processConsoleQueue() {
 		}
 
 		std::queue<std::string> temp = cmd.commandText;
-		std::cout << "[" << cmd.contextName << "]: ";
 		while (!temp.empty()) {
 			auto comm = temp.front();
 			temp.pop();

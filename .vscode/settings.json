@@ -94,6 +94,8 @@
         "random": "cpp",
         "regex": "cpp",
         "shared_mutex": "cpp",
-        "*.ipp": "cpp"
+        "*.ipp": "cpp",
+        "coroutine": "cpp",
+        "valarray": "cpp"
     }
 }

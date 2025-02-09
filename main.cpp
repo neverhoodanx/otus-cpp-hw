@@ -6,18 +6,23 @@
  */
 
 #include "hw09_async_terminal/async.hpp"
+#include <iostream>
+#include <string>
 
-int main() {
+int main(int argc, char *argv[]) {
 
-	std::size_t bulk = 5;
-	auto h = otus_cpp::async::connect(bulk);
-	auto h2 = otus_cpp::async::connect(bulk);
-	otus_cpp::async::receive(h, "1", 1);
-	otus_cpp::async::receive(h2, "1\n", 2);
-	otus_cpp::async::receive(h, "\n2\n3\n4\n5\n6\n{\na\n", 15);
-	otus_cpp::async::receive(h, "b\nc\nd\n}\n89\n", 11);
+	// #7 HomeWork: terminal
+	if (argc != 2) {
+		std::cerr << "Usage: " << argv[0] << " <block_size>" << std::endl;
+		return 1;
+	}
+
+	size_t block_size = std::stoi(argv[1]);
+	auto h = otus_cpp::async::connect(block_size);
+	std::string input;
+	while (std::getline(std::cin, input)) {
+		otus_cpp::async::receive(h, input.data(), input.size());
+	}
 	otus_cpp::async::disconnect(h);
-	otus_cpp::async::disconnect(h2);
-
 	return 0;
 }

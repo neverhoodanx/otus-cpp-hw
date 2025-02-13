@@ -67,6 +67,10 @@ void receive(Context context, const char *data, std::size_t size) {
 	std::lock_guard<std::mutex> lock(contextsMutex);
 	auto it = contexts.find(context);
 	if (it != contexts.end()) {
+		if (size == 0) {
+			it->second->parser_->push_chunk(std::string());
+			return;
+		}
 		std::string buf(data, size);
 		std::istringstream stream(buf);
 		std::string word;

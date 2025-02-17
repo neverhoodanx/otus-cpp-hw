@@ -60,14 +60,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 )
 
 
-set_target_properties(${PROJECT_NAME}_cli PROPERTIES
-    COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
-)
-
-target_link_libraries(${PROJECT_NAME}_cli PRIVATE
-    ${Boost_LIBRARIES}
-)
-
 set_target_properties(${PROJECT_NAME} PROPERTIES
     COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
 )

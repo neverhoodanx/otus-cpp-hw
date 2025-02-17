@@ -6,28 +6,23 @@
  */
 
 
-#include "hw11_join_server/join_server.hpp"
+#include "hw12_map_reduce/map_reduce.hpp"
+#include <cstdlib>
 #include <iostream>
 
 int main(int argc, char *argv[]) {
-	if (argc != 2) {
-		std::cerr << "Usage: join_server <port>\n";
+	if (argc != 4) {
+		std::cerr << "Usage: " << argv[0] << " <src> <mnum> <rnum>"
+		          << std::endl;
 		return 1;
 	}
 
-	try {
-		auto port = std::atoi(argv[1]);
-		boost::asio::io_context io_context;
-		otus_cpp::join::server s(io_context, static_cast<short>(port));
-		boost::asio::signal_set signals(io_context, SIGINT, SIGTERM);
-		signals.async_wait([&](auto, auto) {
-			s.stop();
-			io_context.stop();
-		});
-		io_context.run(); // Run the server in a single thread
-	} catch (std::exception &e) {
-		std::cerr << "Exception: " << e.what() << "\n";
-	}
+	auto file_path = std::string(argv[1]);
+	size_t m_num = std::atoi(argv[2]);
+	size_t r_num = std::atoi(argv[3]);
 
+	otus_cpp::map_reduce::run(m_num, r_num, file_path);
+
+	std::cout << "MapReduce completed successfully" << std::endl;
 	return 0;
 }

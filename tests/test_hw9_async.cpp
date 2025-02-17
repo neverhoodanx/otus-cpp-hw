@@ -1,6 +1,6 @@
 /**
  *  OTUS homework test module
- *  (c) 2024
+ *  (c) 2025
  */
 
 #include "hw09_async_terminal/async.hpp"

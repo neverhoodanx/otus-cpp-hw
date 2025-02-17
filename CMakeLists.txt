@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.12)
 
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 
-set(PROJECT_VESRION 1.1.${PATCH_VERSION})
+set(PROJECT_VESRION 1.2.${PATCH_VERSION})
 
-project(join_server VERSION ${PROJECT_VESRION})
+project(mapreduce VERSION ${PROJECT_VESRION})
 
 option(WITH_BOOST_TEST "Whether to build Boost test" ON)
 
@@ -13,16 +13,18 @@ configure_file(version.h.in version.h)
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
 set(${PROJECT_NAME}_SRC src/hw01_version/lib_version.cpp include/hw01_version/lib_version.hpp
-                        include/hw11_join_server/join_server.hpp
-                        src/hw11_join_server/join_server.cpp
-                        src/hw11_join_server/join_session.cpp
-                        src/hw11_join_server/join_session.hpp
-                        src/hw11_join_server/table_keeper.cpp
-                        src/hw11_join_server/table_keeper.hpp
-                        src/hw11_join_server/table_data.hpp )
+                        include/hw12_map_reduce/map_reduce.hpp
+                        src/hw12_map_reduce/map_reduce.cpp
+                        src/hw12_map_reduce/utility.cpp
+                        src/hw12_map_reduce/utility.hpp
+                        src/hw12_map_reduce/mp_map.hpp
+                        src/hw12_map_reduce/mp_shuffle.hpp
+                        src/hw12_map_reduce/mp_reduce.hpp )
                         
 add_executable(${PROJECT_NAME} main.cpp)
+
 add_library(${PROJECT_NAME}_lib STATIC ${${PROJECT_NAME}_SRC})
+
 
 set_target_properties(${PROJECT_NAME} ${PROJECT_NAME}_lib PROPERTIES
     CXX_STANDARD 17
@@ -34,7 +36,7 @@ target_include_directories(${PROJECT_NAME}_lib
         ${CMAKE_BINARY_DIR}
         ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_SOURCE_DIR}/include/hw01_version
-        ${CMAKE_SOURCE_DIR}/include/hw11_join_server
+        ${CMAKE_SOURCE_DIR}/include/hw12_map_reduce
 )
 
 target_include_directories(${PROJECT_NAME}_lib
@@ -69,7 +71,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIR})
 if(WITH_BOOST_TEST)
     add_executable(test_version 
                                 tests/test_hw1_version.cpp
-                                tests/test_hw11_join_server.cpp)
+                                tests/test_hw12_map_reduce.cpp)
 
     set_target_properties(test_version PROPERTIES
         CXX_STANDARD 17

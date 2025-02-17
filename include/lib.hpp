@@ -62,10 +62,4 @@ void technical_task_allocators();
  */
 void technical_task_ip_filter();
 
-/**
- * @brief HW 1 Return library version
- * @return version number
- */
-int version();
-
 } // namespace otus_cpp

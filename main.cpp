@@ -5,24 +5,34 @@
  *  (c) 2025
  */
 
-#include "hw09_async_terminal/async.hpp"
+#include "hw10_network_terminal/network_terminal.hpp"
+
 #include <iostream>
-#include <string>
+
+using boost::asio::ip::tcp;
 
 int main(int argc, char *argv[]) {
-
-	// #7 HomeWork: terminal
-	if (argc != 2) {
-		std::cerr << "Usage: " << argv[0] << " <block_size>" << std::endl;
+	if (argc != 3) {
+		std::cerr << "Usage: bulk_server <port> <bulk_size>\n";
 		return 1;
 	}
 
-	size_t block_size = std::stoi(argv[1]);
-	auto h = otus_cpp::async::connect(block_size);
-	std::string input;
-	while (std::getline(std::cin, input)) {
-		otus_cpp::async::receive(h, input.data(), input.size());
+	try {
+		auto port = std::atoi(argv[1]);
+		size_t bulk_size = std::atoi(argv[2]);
+
+		boost::asio::io_context io_context;
+		otus_cpp::nw_async::server s(io_context, static_cast<short>(port),
+		                             bulk_size);
+		boost::asio::signal_set signals(io_context, SIGINT, SIGTERM);
+		signals.async_wait([&](auto, auto) {
+			s.stop();
+			io_context.stop();
+		});
+		io_context.run(); // Run the server in a single thread
+	} catch (std::exception &e) {
+		std::cerr << "Exception: " << e.what() << "\n";
 	}
-	otus_cpp::async::disconnect(h);
+
 	return 0;
 }

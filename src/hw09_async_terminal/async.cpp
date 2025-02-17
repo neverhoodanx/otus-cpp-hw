@@ -53,7 +53,6 @@ Context connect(std::size_t block_size) {
 	{
 		contexts[ctx] = std::move(executor);
 	}
-
 	return ctx;
 }
 

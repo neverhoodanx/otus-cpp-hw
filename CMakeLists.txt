@@ -26,7 +26,7 @@ add_executable(${PROJECT_NAME} main.cpp)
 add_library(${PROJECT_NAME}_lib STATIC ${${PROJECT_NAME}_SRC})
 
 
-set_target_properties(${PROJECT_NAME}_cli ${PROJECT_NAME} PROPERTIES
+set_target_properties(${PROJECT_NAME} ${PROJECT_NAME}_lib PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
 )

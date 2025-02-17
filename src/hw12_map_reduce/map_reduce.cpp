@@ -11,6 +11,8 @@
 #include "mp_shuffle.hpp"
 #include "utility.hpp"
 
+#include <iostream>
+
 namespace otus_cpp::map_reduce {
 void run(size_t m_num, size_t r_num, const std::string &file_path) {
 	auto chunks = split_file(m_num, file_path);
@@ -19,8 +21,10 @@ void run(size_t m_num, size_t r_num, const std::string &file_path) {
 	auto reduce_data = reduce_phase(r_num, shuffle_data);
 	for (size_t i = 0; i < r_num; ++i) {
 		std::string out_filename = "out_" + std::to_string(i) + ".txt";
+		std::cout << "Filename: " << out_filename << std::endl;
 		std::ofstream out_file(out_filename);
 		for (const auto &line : reduce_data[i]) {
+			std::cout << " - " << line << std::endl;
 			out_file << line << "\n";
 		}
 		out_file.close();

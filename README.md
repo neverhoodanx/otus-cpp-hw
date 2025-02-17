@@ -13,6 +13,8 @@ OTUS homework repository
 - HW08 boost: ![HW08 boost](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/boost)
 - HW09 async terminal: ![HW09 async terminal](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/async-terminal)
 - HW10 network terminal: ![HW10 network terminal](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/network-terminal)
+- HW11 join server: ![HW11 join server](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/join_server)
+
 
 ## Requirements
  - cmake 3.12
@@ -37,6 +39,15 @@ BOOST_ROOT          C:\thirdparty\boost_1_58_0\
 $ mkdir build && cd build
 $ cmake .. -DPATCH_VERSION=1 -DWITH_BOOST_TEST=ON
 $ cmake --build .
+```
+## HW11 Usage join_server
+```shell script
+$ join_server <port>
+```
+
+## HW10 Usage bulk_server
+```shell script
+$ bulk_server <port> <bulk_size>
 ```
 
 ## Manual test for HW08 boost - file parser

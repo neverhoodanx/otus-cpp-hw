@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.12)
 
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 
-set(PROJECT_VESRION 1.0.${PATCH_VERSION})
+set(PROJECT_VESRION 1.1.${PATCH_VERSION})
 
-project(bulk_server VERSION ${PROJECT_VESRION})
+project(join_server VERSION ${PROJECT_VESRION})
 
 option(WITH_BOOST_TEST "Whether to build Boost test" ON)
 
@@ -13,24 +13,14 @@ configure_file(version.h.in version.h)
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
 set(${PROJECT_NAME}_SRC src/hw01_version/lib_version.cpp include/hw01_version/lib_version.hpp
-                        src/hw07_terminal/command_parser.cpp
-                        src/hw07_terminal/command_parser.hpp
-                        src/hw07_terminal/command_handler.cpp
-                        src/hw07_terminal/command_handler.hpp
-                        src/hw07_terminal/terminal.cpp
-                        include/hw09_async_terminal/async.hpp
-                        src/hw09_async_terminal/async.cpp
-                        src/hw09_async_terminal/async_terminal.cpp
-                        src/hw09_async_terminal/async_terminal.hpp
-                        src/hw09_async_terminal/async_process.hpp
-                        src/hw09_async_terminal/async_process.cpp
-                        include/hw10_network_terminal/network_terminal.hpp
-                        src/hw10_network_terminal/network_terminal.cpp
-                        src/hw10_network_terminal/bulk_session.cpp
-                        src/hw10_network_terminal/bulk_session.hpp
-                        src/hw10_network_terminal/decorator_async.cpp
-                        src/hw10_network_terminal/decorator_async.hpp
-                        )
+                        include/hw11_join_server/join_server.hpp
+                        src/hw11_join_server/join_server.cpp
+                        src/hw11_join_server/join_session.cpp
+                        src/hw11_join_server/join_session.hpp
+                        src/hw11_join_server/table_keeper.cpp
+                        src/hw11_join_server/table_keeper.hpp
+                        src/hw11_join_server/table_data.hpp )
+                        
 add_executable(${PROJECT_NAME} main.cpp)
 add_library(${PROJECT_NAME}_lib STATIC ${${PROJECT_NAME}_SRC})
 
@@ -44,21 +34,18 @@ target_include_directories(${PROJECT_NAME}_lib
         ${CMAKE_BINARY_DIR}
         ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_SOURCE_DIR}/include/hw01_version
-        ${CMAKE_SOURCE_DIR}/include/hw08_boost
-        ${CMAKE_SOURCE_DIR}/include/hw09_async_terminal
-        ${CMAKE_SOURCE_DIR}/include/hw10_network_terminal
+        ${CMAKE_SOURCE_DIR}/include/hw11_join_server
 )
 
 target_include_directories(${PROJECT_NAME}_lib
     PUBLIC 
         ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
 )
-
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     ${PROJECT_NAME}_lib
 )
-
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
@@ -82,8 +69,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIR})
 if(WITH_BOOST_TEST)
     add_executable(test_version 
                                 tests/test_hw1_version.cpp
-                                tests/test_hw7_terminal.cpp 
-                                tests/test_hw9_async.cpp)
+                                tests/test_hw11_join_server.cpp)
 
     set_target_properties(test_version PROPERTIES
         CXX_STANDARD 17

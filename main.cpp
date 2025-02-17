@@ -5,25 +5,20 @@
  *  (c) 2025
  */
 
-#include "hw10_network_terminal/network_terminal.hpp"
 
+#include "hw11_join_server/join_server.hpp"
 #include <iostream>
 
-using boost::asio::ip::tcp;
-
 int main(int argc, char *argv[]) {
-	if (argc != 3) {
-		std::cerr << "Usage: bulk_server <port> <bulk_size>\n";
+	if (argc != 2) {
+		std::cerr << "Usage: join_server <port>\n";
 		return 1;
 	}
 
 	try {
 		auto port = std::atoi(argv[1]);
-		size_t bulk_size = std::atoi(argv[2]);
-
 		boost::asio::io_context io_context;
-		otus_cpp::nw_async::server s(io_context, static_cast<short>(port),
-		                             bulk_size);
+		otus_cpp::join::server s(io_context, static_cast<short>(port));
 		boost::asio::signal_set signals(io_context, SIGINT, SIGTERM);
 		signals.async_wait([&](auto, auto) {
 			s.stop();

@@ -14,7 +14,7 @@ OTUS homework repository
 - HW09 async terminal: ![HW09 async terminal](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/async-terminal)
 - HW10 network terminal: ![HW10 network terminal](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/network-terminal)
 - HW11 join server: ![HW11 join server](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/join_server)
-
+- HW12 mapreduce: ![HW12 mapreduce](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/mapreduce)
 
 ## Requirements
  - cmake 3.12
@@ -40,6 +40,12 @@ $ mkdir build && cd build
 $ cmake .. -DPATCH_VERSION=1 -DWITH_BOOST_TEST=ON
 $ cmake --build .
 ```
+
+## HW12 Usage mapreduce
+```shell script
+$ mapreduce <src> <mnum> <rnum>
+```
+
 ## HW11 Usage join_server
 ```shell script
 $ join_server <port>

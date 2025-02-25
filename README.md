@@ -15,6 +15,7 @@ OTUS homework repository
 - HW10 network terminal: ![HW10 network terminal](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/network-terminal)
 - HW11 join server: ![HW11 join server](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/join_server)
 - HW12 mapreduce: ![HW12 mapreduce](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/mapreduce)
+- HW13 ml computer vision: ![HW13 ml computer vision](https://github.com/neverhoodanx/otus-cpp-hw/actions/workflows/release.yml/badge.svg?branch=release/ml_computer_vision)
 
 ## Requirements
  - cmake 3.12
@@ -39,6 +40,26 @@ BOOST_ROOT          C:\thirdparty\boost_1_58_0\
 $ mkdir build && cd build
 $ cmake .. -DPATCH_VERSION=1 -DWITH_BOOST_TEST=ON
 $ cmake --build .
+```
+
+## HW13 Usage ml_computer_vision
+```shell script
+$ ml_computer_vision <w1> <w2> <TestData>
+```
+
+## HW12 Usage mapreduce
+```shell script
+$ mapreduce <src> <mnum> <rnum>
+```
+
+## HW11 Usage join_server
+```shell script
+$ join_server <port>
+```
+
+## HW10 Usage bulk_server
+```shell script
+$ bulk_server <port> <bulk_size>
 ```
 
 ## HW12 Usage mapreduce
